@@ -1,0 +1,370 @@
+\makeatletter
+\def\input@path{{../macros/}{../../macros/}}
+\makeatother
+
+
+\documentclass[a4paper]{article}
+
+\usepackage{mydoc}
+\input{mydoc.tex}
+
+\title{The package \package{easyeqn}}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+  The package \package{easyeqn} introduces some equation environments
+  that simplify writing of equations.  It uses a syntax similar to the
+  array environment to define the column alignment.  The label field
+  is fully customizable.  A package option permits to number only
+  those equations that were \emph{labeled and referenced}.  Some
+  additional macros are also included to facilitate typing of
+  formulae.
+%   The option ``showkeys'' modifies the \cmdname{label},
+%   \cmdname{eqref} and \cmdname{refeq} commands so that the `internal'
+%   key is printed.
+\end{abstract}
+
+\tableofcontents
+%begin{latexonly}
+\clearpage
+%end{latexonly}
+
+\pagestyle{fpage}
+\def\sectionmark#1{\markboth{The package \package{easyeqn}}{The package \package{easyeqn}}}
+\let\chaptermark\sectionmark
+\let\subsectionmark\sectionmark
+
+\section{Some examples with \package{easyeqn}}
+Load the package using the usual syntax:
+%
+\VRB{doceqn.1.tex}
+%
+The package\footnote{the option ``showkeys'' is eliminated in this
+version because now \package{easyeqn} is compatible with 
+\package{showkeys} package}
+introduces the \envname{EQ} and \envname{EQA}~environments.
+The package options are:
+\begin{dotlist}
+%%
+\item[allnumber]
+     Means that all of the \envname{EQ} and \envname{EQA}
+     environments are numbered. Without that option, only
+     those \envname{EQ} and \envname{EQA} environment that
+     are \emph{labeled} and \emph{referenced} are numbered.
+%%
+\item[warning]
+     Causes equations that are labeled but \emph{not referenced}
+     to be flagged.
+%%
+\item[easyold]
+     Produce obsolete environment \envname{EQS}, \envname{EQS*},
+     \envname{EQ*}, \envname{EQA*} for backward compatibilty.
+%%
+\item[fleqn]
+     Flushes equation on the left margin.
+%%
+\item[leqno]
+     Writes equation number on the left.
+%%
+\item[math]
+     Define additional macros for mathematics.
+%%
+\end{dotlist}
+ 
+
+
+\section{Use of the \envname{EQ} environment}
+Look at this example:
+%
+\EXAMPLEA{doceqn.2}
+%
+Note that the reference is done by \cmdname{eqref} or \cmdname{refeq}. 
+The command \cmdname{refeq} produces the same output as \cmdname{ref},
+while \cmdname{eqref} uses \texttt{( )} for the output.
+
+\textbf{Remark:} Due to the algorithm implementation,
+in order to obtain the right cross reference, you need
+to recompile the file 3~times.  The use
+\cmdname{label} is not permitted inside \envname{EQ*} environments and
+if you use \cmdname{ref} for referencing
+equations the results are unpredictable\footnote{%
+The previous release to label an equation uses the command
+\texttt{\\eqlabel}, for backward compatibility this command
+is maintained but the user should use the \texttt{\\label}
+command
+}.
+
+This is another example:
+%
+\EXAMPLEA{doceqn.3}
+%
+Note that between \verb|[...]| you can specify the column alignment
+in the same way as in the \envname{array} or \envname{tabular} 
+environment\footnote{In a previous release of \package{easyeqn}
+multicolumn alignment was implemented in a \envname{EQS} environment.
+However to maintain backward compatibility such an environment
+are maintained}.
+The permitted alignment are \verb|l| for left alignment,
+\verb|r| for right alignment and \verb|c| for centering. There is also
+the character ``\verb'.''' that used between definition of two columns
+disable the spacing between columns as in the following example taken 
+from the documentation of \package{eqnarray} of Roland Winkler;
+%
+\EXAMPLEA{doceqn.4}
+%
+in this example we have used also the command \cmdname{eqmulticol} the 
+syntax is the following
+\begin{verbatim}
+   \eqmulticol{ncol}{align}{body}
+\end{verbatim}
+where
+\begin{dotlist}
+  \item[ncol] is the number of column to fuse.
+  \item[aling] is the alignment, it can be \verb'l',  \verb'r',  \verb'c'.
+  \item[body] is the thing to put across the column.
+\end{dotlist}
+
+\section{The \texttt{\char`\\yesnumber} command}
+If you want to number an equation without reference it, use the
+\cmdname{yesnumber} command as this example shows:
+%
+\EXAMPLEA{doceqn.5}
+%
+
+
+
+
+\section{Use of \envname{EQA} environment}
+%
+\EXAMPLEA{doceqn.6}
+%
+Note that only the referenced lines or the lines with 
+\cmdname{yesnumber} are numbered.
+
+
+\section{The \texttt{\char`\\label} command}
+It is possible to use custom label by \cmdname{label} command. 
+The syntax is one of the following:
+\begin{verbatim}
+  \label{labelname}
+  \label[eqnum]
+  \label[eqnum]{labelname}
+  \label(eqnum)
+  \label(eqnum){labelname}
+\end{verbatim}
+where ``\verb'[eqnum]''' is an optional argument that if defined,
+equation displays ``\verb'eqnum''' instead of
+``\verb'(equation number)'''.  The equation counter is not advanced and
+``\verb'labelname''' if present will refer to ``\verb'eqnum'''.
+
+If we use where ``\verb'(eqnum)''' is an optional argument that if
+defined, equation displays ``\verb'(eqnum)''' instead of
+``\verb'(equation number)'''.  The equation counter is not advanced
+and ``\verb'labelname''' if present will refer to ``\verb'eqnum'''.
+
+Look at this example:
+%
+\EXAMPLEA{doceqn.7}
+%
+Notice that custom label are always displayed also if they are
+not referenced.
+
+\section{Label positioning}
+It is possible to change the default position os a single 
+label by the commands:
+\begin{dotlist}
+  \item\cmdname{eqlabeltop}
+  \item\cmdname{eqlabelbot}
+  \item\cmdname{eqlabelcenter}
+\end{dotlist}
+For example:
+%
+\EXAMPLEA{doceqn.8}
+%
+
+
+\section{Sub-numbering}
+To sub-number equation instead of use something like
+%
+\begin{verbatim}
+  \begin{subequations}
+  \begin{EQ}...
+    
+  \end{EQ}
+  \end{subequations}
+\end{verbatim}
+%
+I prefer to use \cmdname{label} command with the character \verb'~'
+as a shortcut for the command \cmdname{theequation}. The following example shows 
+the use
+%
+\EXAMPLEA{doceqn.9}
+%
+the \cmdname{yesnumber} command is necessary to enforce advancing of 
+equation counter.
+
+
+\section{Use of \envname{fleqn} and \envname{leqno} option}
+You can use \envname{fleqn} to flux left the equations or
+\envname{leqno} to number equations on the left.
+If for example we have used
+\begin{verbatim}
+
+  \documentclass{article}
+  .
+  .
+  \usepackage[fleqn,leqno]{easyeqn}
+  .
+  .
+
+\end{verbatim}
+the effect with this example:%
+%
+\equationleft\numberleft 
+\EXAMPLEA{doceqn.10}
+\equationcenter\numberright
+%
+The same effect can be obtained everywhere using the commands
+\cmdname{equationleft} and \cmdname{numberleft} before defining
+the equation. To restore the default values use the commands
+\cmdname{equationcenter} and \cmdname{numberright} after the equation.
+%
+
+\section{Cosmetic changes}
+It is possible to modify a little the appearance of the equations.
+There are three parameter that it is possible to change
+\begin{dotlist}
+  \item[left indent] When the equations are fluxed left, the left indent
+  can be changed by the command \cmdname{eqleftmargin}.
+\begin{verbatim}
+   
+   \eqleftmargin{new indent}
+	
+\end{verbatim}
+%    
+for example
+%
+\begin{verbatim}
+  
+  \eqleftmargin{1cm}
+
+\end{verbatim}
+The default value for the left margin is \cmdname{leftmargini}. 
+
+\item[equation spacing] The spacing around a formula,
+(default \verb'7pt') can be changed by the command
+\begin{verbatim}
+
+  \eqspacing{new spacing}
+
+\end{verbatim}    
+for example
+\begin{verbatim}
+  
+  \eqspacing{4pt}
+
+\end{verbatim}
+\item[column spacing]
+The spacing between columns (default value \verb'4pt') can be changed by the command
+\begin{verbatim}
+
+  \eqcolumnsep{new spacing}
+
+\end{verbatim}  
+for example
+\begin{verbatim}
+    
+  \eqcolumnsep{10pt}
+
+\end{verbatim}
+\item[row spacing] The spacing between rows in multiple
+equations (default value \verb'7pt') can be changed by the command
+\begin{verbatim}
+
+  \eqrowsep{new spacing}
+
+\end{verbatim}
+for example
+\begin{verbatim}
+
+  \eqrowsep{10pt}
+
+\end{verbatim}
+\end{dotlist}
+
+for example
+%
+\EXAMPLEA{doceqn.11}
+%
+
+
+\section{Additional macros}
+Using the package as follow
+\begin{verbatim}
+  \documentclass{article}
+  .
+  .
+  \usepackage[...,math]{easyeqn}
+  .
+  .
+\end{verbatim}
+%
+we can use additional macros for typesetting mathematics, the 
+following macros are defined  \cmdname{frac}, \cmdname{dfrac},
+\cmdname{tfrac}, \cmdname{binom} and  \cmdname{boxed} which use is described 
+in the following example:
+%
+\EXAMPLEA{doceqn.12}
+%
+The macro \cmdname{eqbox} is defined, the effect is the following
+%
+\EXAMPLEA{doceqn.13}
+%
+The macros \cmdname{norm} and \cmdname{abs} are defined,
+the effect is the following
+%
+\EXAMPLEA{doceqn.14}
+%
+The macro \cmdname{ParDer} is defined, the effect is the following
+%
+\EXAMPLEA{doceqn.15}
+%
+notice that single item of derivative must be a single letter (or a 
+macro) or must be inside a group \verb'{ ... }'.
+If you use \cmdname{ParDer} with package \package{easyvector}
+remember to put macros in brace when use ``$[$ $]$'' as follows:
+%
+\EXAMPLEA{doceqn.16}
+%
+otherwise you obtain strange think like the following
+%
+\EXAMPLEA{doceqn.17}
+%
+The macros \cmdname{DIV}, \cmdname{GRAD} and \cmdname{LAPLA} are defined,
+the effect is the following
+%
+\EXAMPLEA{doceqn.18}
+%
+The macro \cmdname{SUM} is defined, the effect is the following
+%
+\EXAMPLEA{doceqn.19}
+%
+The macro \cmdname{PROD} is defined, the effect is the following
+%
+\EXAMPLEA{doceqn.20}
+%
+The environment \envname{ARRAY} is defined, is a simple subset of the 
+environment \envname{array} with a different spacing; look the following 
+example
+%
+\EXAMPLEA{doceqn.21}
+%
+The environment \envname{MATRIX} is defined, is a simple replacement
+of \cmdname{matrix} command with a different spacing; look the following 
+example
+%
+\EXAMPLEA{doceqn.22}
+%
+
+\end{document}

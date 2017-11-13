@@ -1,0 +1,259 @@
+\makeatletter
+\def\input@path{{../macros/}{../../macros/}}
+\makeatother
+
+
+\documentclass[a4paper]{article}
+
+\usepackage{mydoc}
+\input{mydoc.tex}
+
+\title{The package \package{easymat}}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+  The \package{easymat}
+%     \footnote{%
+%     \textbf{Important} The package was improved a lot between version
+%     0.1 to version 0.2.  Unfortunately, due to some technical choice,
+%     matrices written for version 0.2 are incompatible (because of few
+%     modification) with matrices written for version 0.1.  If you
+%     prefer the old style you can find \texttt{easymat.sty} in the
+%     directory ``\texttt{old}''}
+  package is a macro package for writing block matrices, with equal
+  column widths or equal rows heights or both, with various kinds of
+  rules~(lines) between rows and columns.  It uses an
+  array/ta\-bular-like syntax.
+\end{abstract}
+
+\tableofcontents
+%begin{latexonly}
+\clearpage
+%end{latexonly}
+
+\pagestyle{fpage}
+\def\sectionmark#1{\markboth{The package \package{easymat}}{The package \package{easymat}}}
+\let\chaptermark\sectionmark
+\let\subsectionmark\sectionmark
+
+\section{Some examples with \package{easymat}}
+Load the package in the usual way:
+\begin{verbatim}
+  \documentclass{article}
+  .
+  .
+  \usepackage[thinlines,thiklines]{easymat}
+  .
+  .
+\end{verbatim}
+%
+The options \texttt{thinlines}, and \texttt{thiklines} are self explanatory.
+\package{easymat} provides the \envname{MAT}~environment which is a
+simple re-implementation of the
+array/tabular environment, with some limitation and some additional features.
+The syntax is
+%
+\begin{verbatim}
+  \begin{MAT}`(eq)'`[ex]'`{cc...c}'
+    a & b & ... & n \\
+    ...
+  \end{MAT}
+\end{CODE} 
+or
+\begin{verbatim}
+  \begin{MAT}`(eq,mx,my)'`[ex,MX,MY]'`{cc...c}'
+     a & b & ... & n \\
+     ...
+  \end{MAT}
+\end{verbatim}
+%
+\begin{dotlist}
+  \item 
+  \verb+(eq)+ or \verb+(eq,mx,my)+.  By \verb+eq+ you can balance
+  the rows or the column or both, as shown in this table:
+  \begin{center}
+    \textbf{Table 1.} \\[1em]
+    \begin{tabular}{|l|l|}
+      \hline
+      value of \verb|eq| & effect \\
+      \hline
+      \verb+@+ & no balancing \\
+      \verb+r+ & equal rows heights \\
+      \verb+c+ & equal column widths  \\
+      \verb+b+ & equal rows heights and equal column widths \\
+      \verb+e+ & equal rows heights and column widths \\
+      \hline
+    \end{tabular}
+  \end{center}
+  By \verb+mx+ and \verb+my+ you can modify the minimum size of the
+  box in the MAT environment.  This must be a valid measure e.g.
+  2pt.  This is useful in writing matrices an vectors.
+  %%
+  \item
+  \verb+[ex]+ or \verb+[ex,MX,MY]+.  By ``\verb+ex+'' you can
+  specify the amount of extra space around the item in the
+  \envname{MAT} environment.  The default is \verb+2pt+.  By
+  \verb+MX+ and \verb+MY+ you can modify the minimum size of the
+  whole table in the \envname{TAB} environment.  This must be a
+  valid measure e.g.10cm.
+  %%
+  \item 
+  The \verb+`{cc...c}'+ is the definition of the columns and their
+  alignment.  The possible alignment for the columns are:
+  \begin{center}
+    \textbf{Table 2.} \\[1em]
+    \begin{tabular}{|l|l|}
+      \hline
+      \verb+c+ & centering \\
+      \verb+l+ & flush left \\
+      \verb+r+ & flush right \\
+      \hline
+    \end{tabular}
+  \end{center}
+\end{dotlist}
+%
+\textbf{IMPORTANT:} The package can manage matrices with a maximum 
+of \verb|30| rows by \verb|30| columns.
+
+It is possible to produce rules between columns or rows as this 
+example shows:
+%
+\EXAMPLEA{docmat.1}
+%
+The command \cmdname{first} is used to produce the first top rule. The 
+various separation rules are defined by a character code immediately 
+after the command \verb+\\+.
+The available rules for the rows and columns are
+%
+\begin{center}
+\textbf{Table 3.}\nobreak\\
+\begin{tabular}{|l|l|}
+\hline
+nothing  & no rule \\
+\verb+|+ & solid line (or \verb+-+ for the rows) \\
+\verb+:+ & dash line \\
+\verb+;+ & dot-dash line \\
+\verb+.+ & dotted line \\
+\verb+0+ & solid line with size \verb|1/5| of normal line \\
+\verb+1+ & solid line with size \verb|1/4| of normal line \\
+\verb+2+ & solid line with size \verb|1/3| of normal line \\
+\verb+3+ & solid line with size \verb|1/2| of normal line \\
+\verb+4+ & equivalent to \verb+|+ \\
+\verb+5+ & solid line with size \verb|2| times of normal line \\
+\verb+6+ & solid line with size \verb|3| times of normal line \\
+\verb+7+ & solid line with size \verb|4| times of normal line \\
+\verb+8+ & solid line with size \verb|5| times of normal line \\
+\verb+9+ & solid line with size \verb|6| times of normal line \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{IMPORTANT:} each row \textbf{must} be ended by a \verb+\\+ 
+unless an error is produced.
+
+The main feature of the \envname{MAT}~environment
+is that it is reentrant as shown it the following:
+%
+\EXAMPLEA{docmat.2}
+%
+\textbf{IMPORTANT:} The package can manage a reentrance of a maximum 
+of \verb|8| levels.
+
+
+\section{Some example with balancing}
+Here it is showed the effect of various balancing:
+%
+\EXAMPLEA{docmat.3}
+%
+and this is another example
+%
+\EXAMPLEA{docmat.4}
+%
+
+
+
+\section{An example with minimal size setting}
+It is possible to specify the minimal size of the item inside a ``MAT''
+environment, as shown here
+%
+\EXAMPLEA{docmat.5}
+%
+It is possible to specify the total minimal size of a \envname{MAT}
+environment, as shown here
+%
+\EXAMPLEA{docmat.6}
+%
+
+
+\section{An example with various size rules}
+This example shows the use of various size rule in \envname{MAT} 
+environment:
+%
+\EXAMPLEA{docmat.7}
+%
+
+
+\section{The \texttt{\char`\\addpath} command}
+Is is possible to add paths to the ``MAT'' environment. The syntax 
+is the following
+\begin{verbatim}
+
+\begin{MAT} ...... {...}
+   ...... \\
+   ...... \\
+   ...... \\
+   \addpath{(`x',`y',`rule')`path'}
+   .
+   .
+   \addpath{(`x',`y',`rule')`path'}
+\end{MAT}
+
+\end{verbatim}
+where
+\begin{desc}
+  \item["x" and "y"] are the integer coordinate of the starting
+  corner.  The left down corner is at coordinate $x=0$, $y=0$.
+  %%
+  \item[rule] is the code of a valid rule as described in table 3.
+  %%
+  \item[path] is a string describing the path.  Each letter of the
+  string is a movement coded as follows:
+  \begin{center}
+    \textbf{Table 4.} \\[1em]
+    \begin{tabular}{|l|l|}
+      \hline
+      letter & direction \\
+      \hline
+      \verb+l+ & left movement and drawing \\
+      \verb+r+ & right movement and drawing \\
+      \verb+u+ & up movement and drawing \\
+      \verb+d+ & down movement and drawing \\
+      \hline
+    \end{tabular}
+  \end{center}
+\end{desc}
+The following example shows the use of \cmdname{addpath},
+%
+\EXAMPLEA{docmat.8}
+%
+\textbf{IMPORTANT:} The commands \cmdname{addpath} can be putted
+anymere \textbf{before} the last \verb+\\+ command.
+
+This is another example
+%
+\EXAMPLEA{docmat.9}
+%
+
+
+\section{An example with reentrance}
+This final example shows a slightly more complex (reentrant)
+definition in 
+which the \envname{MAT}~environment is used:
+\typeout{This example can take a while to compile on small machine, please wait...}
+%
+\EXAMPLEA{docmat.10}
+%
+\typeout{...thanks, I have done}
+
+\end{document}

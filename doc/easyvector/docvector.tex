@@ -1,0 +1,139 @@
+\makeatletter
+\def\input@path{{../macros/}{../../macros/}}
+\makeatother
+
+
+\documentclass[a4paper]{article}
+
+\usepackage{mydoc}
+\input{mydoc.tex}
+
+\title{The package \package{easyvector}}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+The \package{easyvector} package is a simple
+macro package that provides a C-like syntax for writing vectors or matrices.
+\end{abstract}
+
+\tableofcontents
+%begin{latexonly}
+\clearpage
+%end{latexonly}
+\pagestyle{fpage}
+
+\def\sectionmark#1{\markboth{The package \package{easyvector}}{The package \package{easyvector}}}
+\let\chaptermark\sectionmark
+\let\subsectionmark\sectionmark
+
+\section{Some examples with \package{easyvector}}
+Load the package in the usual way:
+\begin{verbatim}
+
+  \documentclass{article}
+  .
+  .
+  \usepackage[spacesep,definevectors]{easyvector}
+  .
+  .
+
+\end{verbatim}
+%
+The package option \texttt{spacesep} means that the separator for the
+indices is the command \cmdname{smallspace} instead of
+``\verb|,|''~(comma).
+
+The package option \texttt{definevectors} means that the command
+\cmdname{aa},\ldots, \cmdname{zz} and \cmdname{AA},\ldots,
+\cmdname{ZZ} are predefined as vectors.  It also define the commands
+\cmdname{Balpha}, \cmdname{Bbeta} and so on, as bold greek vectors. 
+The latex commands \cmdname{aa}, \cmdname{AA}, \cmdname{gg},
+\cmdname{ll}, \cmdname{ss}, \cmdname{SS}, \cmdname{tt} are saved in
+the commands \cmdname{oldxx} where \verb'xx' is the name of the old
+command.
+
+\section{Use of the \cmdname{newvector} command}
+The general syntax of \cmdname{newvector} command is
+\begin{verbatim}
+
+  \newvector[\cmda,\cmdb]{cmd}
+
+\end{verbatim}
+or 
+\begin{verbatim}
+
+  \newvector(a)[cmd]
+
+\end{verbatim}
+In the first case, it creates the new command (macro) \cmdname{cmd}
+which executes \cmdname{cmda} when in scalar mode, and \cmdname{cmdb}
+when in vector mode.  In the second case it creates a new command
+\cmdname{cmd} which substitutes the letter \cmdname{mathit}\verb'{a}'
+when in scalar, mode and \cmdname{mathbf}\verb'{a}' when in vector
+mode.  Scalar mode is activated when \cmdname{cmd} is immediately
+followed by~\verb|[|.  In scalar mode everything between
+\verb|[|~and~\verb|]| (with balancing) is assumed to be indices.  For
+example the commands
+%
+\EXAMPLEA{docvector.1}
+%
+The structure of the \verb|[...]| command is the following
+\begin{verbatim}
+
+  [i,j,...,k;x,y,...,z]
+
+\end{verbatim}
+where \verb'i,j,...,k' are subscripts and \verb'x,y,...,z' are
+superscripts.  The character ``\verb|,|''~is used as a separator
+between different indices, and the character ``\verb|;|''~separates
+subscripts and superscripts.  There are no limits on the number of
+indices, and the code is reentrant, as the following example
+illustrates
+%
+\EXAMPLEA{docvector.2}
+%
+
+\section{Use of the \texttt{!} command}
+In some circumstances it is useful to force vector mode also when
+using indices.  It is possible by using the character~\verb'!' 
+before~\verb'['
+%
+\EXAMPLEA{docvector.3}
+%
+
+\section{Use of the \texttt{\char`\\newcustomvector} command}
+In some circumstances the command \cmdname{newcustomvector} can be
+useful.  Is is essentially the \cmdname{newvector} command with an
+extra argument that is a macro for manage the index part.
+%
+\EXAMPLEA{docvector.4}
+%
+
+\textbf{Important:} For the old user (version $< 0.6$) the command
+\cmdname{customindex} is suppressed and the \cmdname{newcustomvector}
+is used instead.
+
+\section{The ``definevectors'' option}
+This option define the following vectors for you:
+\begin{verbatim}
+
+  \aa,\bb,...,\zz    \AA,\BB,...,\ZZ
+  \Balpha, \Bbeta, ..., \Bomega
+
+\end{verbatim}   
+for example
+%
+\EXAMPLEA{docvector.5}
+%
+
+\section{The ``@'' convention}
+In linear algebra sometimes with the notation $\AA[@,j]$ we denote the 
+vector formed by the $j^{th}$ column of $\AA$. Notice that $\AA$ is in 
+vector format not in scalar format ($\AA[]$). We can use a ``$\bullet$'' 
+as a index in a vector forcing the vector mode by using @ as follows 
+index 
+%
+\EXAMPLEA{docvector.5}
+%
+\end{document}
