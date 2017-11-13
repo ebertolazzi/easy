@@ -56,6 +56,7 @@
 %%% v 1.94 18-MAR-2002 fixed a bug compatibility with hyperref
 %%% v 1.95 20-APR-2002 fixed a bug on EQS with easyold option
 %%% v 1.96 4-OCT-2003 addedd TotDer and more function of ParDer
+%%% v 1.97 15-NOV-2010 fixed an error with showkeys and hyperref
 %%% ====================================================================%%%
 %%%       ___    ____  ___   _   _         ___    ____  ___   _   _     %%%
 %%%      /   \  /     /   \  \  /         /   \  /     /   \  \  /      %%%
@@ -63,8 +64,8 @@
 %%%    /   \  /     /  \      /         /   \  /     /  \      /        %%%
 %%%   /____/ /____ /    \    /         /____/ /____ /    \    /         %%%
 %%% ====================================================================%%%
-\def\filedate{2003/10/04}
-\def\fileversion{v1.96}
+\def\filedate{2010/11/15}
+\def\fileversion{v1.97}
 \typeout{Document Style `easyeqn' \fileversion\space<\filedate>.}
 %% BEGIN easyeqn.sty
 %%
@@ -341,12 +342,12 @@
    \@ifnextchar\bgroup{\@EQ@d}{}}
 
 \def\@EQ@c#1{%
-   \@EQ@SK@label{#1}
    \@ifundefined{r@eq@#1}{\@EQ@write@warning{#1}}
    {\@EQ@stepnumber\global\let\if@EQ@numbering\iftrue\@EQ@old@label{#1}}
+   \@EQ@SK@label{#1}
 }
 
-\def\@EQ@d#1{\@EQ@SK@label{#1}\@EQ@old@label{#1}}
+\def\@EQ@d#1{\@EQ@old@label{#1}\@EQ@SK@label{#1}}
 
 \def\@EQ@CR{\global\let\@EQ@eqbox@do\@EQ@eqbox{\ifnum0=`}\fi\@EQ@CR@}
 \def\@EQ@CR@{\@ifnextchar[\@EQ@CR@@{\@EQ@CR@@[\z@]}}
@@ -444,24 +445,23 @@
 \def\EQA{\@EQ@NUMBER\@easy@ifnextchar[\@EQ@A@ALIGN{\@EQ@A@ALIGN[rcl]}}
 \let\endEQA\end@EQ@A@ALIGN
 
-
 \AtBeginDocument{%
 %
-  \let\@EQ@old@ref\ref
-  \let\@EQ@old@label\label
+  \@ifpackageloaded{hyperref}{\let\@EQ@old@label\ltx@label\relax}
+                             {\let\@EQ@old@label\label\relax}
+  \let\@EQ@old@ref\ref\relax
 %
-  \@ifundefined{SK@label}{%
-  }{%
-    \def\@EQ@SK@left{\llap{\@EQ@SK@lab\kern\marginparsep}\global\let\SK@lab\@empty}
-    \def\@EQ@SK@right{\rlap{\kern\marginparsep\@EQ@SK@lab}\global\let\SK@lab\@empty}
+  \@ifpackageloaded{showkeys}{
+    \gdef\SK@labx{} % eliminate showkeys label marker
+    \def\@EQ@SK@left{\llap{\@EQ@SK@lab\kern\marginparsep}\global\let\@EQ@SK@lab\@empty}
+    \def\@EQ@SK@right{\rlap{\kern\marginparsep\@EQ@SK@lab}\global\let\@EQ@SK@lab\@empty}
     \def\@EQ@SK@label#1{%
        \gdef\@EQ@SK@lab{%
          \edef\@tempa{#1}
          \smash{\SK@labelcolor\fbox{\normalfont\small\ttfamily\expandafter\strip@prefix\meaning\@tempa}}%
        }
     }
-    \@ifundefined{ltx@label}{\let\@EQ@old@label\SK@label}{}
-  }
+  }{}%
   \if@EQ@number@left\numberleft\else\numberright\fi
   \let\if@EQ@number@left\relax
 }

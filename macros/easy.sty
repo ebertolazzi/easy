@@ -69,14 +69,9 @@
 % define boxes for internal computation.
 %
 \@tempcnta=8\relax
-\@whilenum\@tempcnta>\z@\do{
-  \expandafter\global\expandafter\newbox\csname @easy@box\romannumeral\@tempcnta\endcsname
-%   \expandafter\global\expandafter\newdimen\csname @easy@minx\romannumeral\@tempcnta\endcsname
-%   \expandafter\global\expandafter\newdimen\csname @easy@miny\romannumeral\@tempcnta\endcsname
-%   \expandafter\global\expandafter\newdimen\csname @easy@maxx\romannumeral\@tempcnta\endcsname
-%   \expandafter\global\expandafter\newdimen\csname @easy@maxy\romannumeral\@tempcnta\endcsname
-  \advance\@tempcnta by\m@ne
-}
+\@whilenum\@tempcnta>\z@\do{%
+\expandafter\global\expandafter\newbox\csname @easy@box\romannumeral\@tempcnta\endcsname
+\advance\@tempcnta by\m@ne}
 
 \def\@easy@ifnextchar#1#2#3{%
   \let\reserved@d=#1%
