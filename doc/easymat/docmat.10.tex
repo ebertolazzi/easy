@@ -1,1 +1,22 @@
-\def\rec(#1){\expandafter\recurse#1-\end}\def\recurse#1#2\end{% \if\noexpand#1-\def\next##1##2{}% \else\let\next=\recursea\fi% \expandafter\next{#1}{#2}%}%\def\recursea#1#2{%  \bgroup    \begin{MAT}[0pt]{l:c:r}       \aligntop       \rec(#2) &      #1  & \rec(#2) \\;             #1 & \rec(#2) & #1       \\;       \alignbottom       \rec(#2) &      #1  & \rec(#2) \\    \end{MAT}  \egroup}\small\[  \recurse\clubsuit\diamondsuit\heartsuit\end\]
+\def\rec(#1){\expandafter\recurse#1-\end}
+\def\recurse#1#2\end{%
+ \if\noexpand#1-\def\next##1##2{}%
+ \else\let\next=\recursea\fi%
+ \expandafter\next{#1}{#2}%
+}%
+\def\recursea#1#2{%
+  \bgroup
+    \begin{MAT}[0pt]{l:c:r}
+       \aligntop
+       \rec(#2) &      #1  & \rec(#2) \\;
+             #1 & \rec(#2) & #1       \\;
+       \alignbottom
+       \rec(#2) &      #1  & \rec(#2) \\
+    \end{MAT}
+  \egroup
+}
+\small
+\[
+  \recurse\clubsuit\diamondsuit\heartsuit\end
+\]
+

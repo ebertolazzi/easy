@@ -2,8 +2,7 @@
 \def\input@path{{../macros/}{../../macros/}}
 \makeatother
 
-
-\documentclass[a4paper]{article}
+\documentclass[a4paper,final,11pt]{article}
 
 \usepackage{mydoc}
 \input{mydoc.tex}
@@ -22,17 +21,7 @@
 \maketitle
 \begin{abstract}
   The package \package{easybib}
-%
-% \footnote{\textbf{Important.}
-% The package was improved a lot
-% between version 0.1 to version 0.2. Unfortunately, due to some technical
-% choice, bibliography written for version 0.2 are incompatible
-% (because of few modification) with bibliography written for version 
-% 0.1. If you prefer the old style you can find \texttt{easybib.sty} in the
-% directory ``\texttt{old}''.}
-%
-  introduces some new items for easy customization of the
-  bibliography.
+  introduces new items for easy custom-made bibliographies.
 \end{abstract}
 
 \tableofcontents
@@ -48,13 +37,14 @@
 \let\subsectionmark\sectionmark
 
 \section{The package \package{easybib}}
-The scheme for the bibliography in the package \package{easybib}
-was inspired by the beautiful
-bibliography system of \AmSTeX{}. Due to the necessity of
-flexibility, the syntax is a little bit different but the
-functionality is similar (although not identical).
+%%
+The scheme of the bibliography in the package \package{easybib}
+was inspired by the bibliography system of \AmSTeX{}.
+%%
+For the sake of flexibility, the syntax is somewhat different,
+yet the functionality is similar (although not identical).
 For the use, load the package using the usual syntax:
-%
+%%
 \begin{verbatim}
   
   \documentclass{article}
@@ -65,10 +55,12 @@ For the use, load the package using the usual syntax:
   .
 
 \end{verbatim}
-The option \cmdname{definethebibliography} permits to override
+%%
+The option \cmdname{definethebibliography} overrides
 the default \envname{thebibliography} environment.
-In this case the environment \envname{thebibliography} take this form:
-%
+In this case the environment \envname{thebibliography}
+takes the form:
+%%
 \begin{verbatim}
   
   \begin{thebibliography}``[optional name]''
@@ -79,35 +71,35 @@ In this case the environment \envname{thebibliography} take this form:
   \end{thebibliography}
 
 \end{verbatim}
-%
-so that you can override the default name \cmdname{refname} with your
-own name, you can change the default \cmdname{section*} with
-\cmdname{cmd} and add extra space \verb'space' before the items.  The
+%%
+so that you can override the default name \cmdname{refname}
+with the name of your choice, you can change the default \cmdname{section*} with
+\cmdname{cmd} and add extra space \verb'space' in front of the items.  The
 syntax of the bibliography command is now the following
-%
+%%
 \FRAMEVRB{docbib.1.tex}
-%
+%%
 the command
-%
+%%
 \begin{verbatim}
 
   \bookref``[display label]''{label} ... \endref
 
 \end{verbatim}
-%
+%%
 is used to refer to a book, while 
-%
+%%
 \begin{verbatim}
 
   \paperref``[display label]''{label} ... \endref
 
 \end{verbatim}
-%
+%%
 is used to refer to a paper.
 
 When an item, for example \cmdname{xxx}, is encountered then the
 following text is expanded as follows
-%
+%%
 \begin{verbatim}
 
   \xxx+text ==> punctation + 
@@ -116,12 +108,12 @@ following text is expanded as follows
 		end commands
 
 \end{verbatim}
-%
-where the \verb'punctation' is displayed unless \cmdname{xxx} is the 
+%%
+where the \verb|punctation| is displayed unless \cmdname{xxx} is the 
 first displayed item.
 The default values for the items in the \cmdname{bookref} environment 
 are the following
-%
+%%
 \begin{center}
 \par
 \begin{tabular}{|l|l|l|l|}
@@ -144,10 +136,10 @@ command & punctation  & begin commands & end commands \\
 \end{tabular}
 \par
 \end{center}
-%
+%%
 The default values for the items in the \cmdname{paperref} environment
 are the following
-%
+%%
 \begin{center}
 \par
 \begin{tabular}{|l|l|l|l|}
@@ -182,9 +174,11 @@ command & punctation  & begin commands & end commands \\
 
 
 \section{The command \cmdname{moreref}}
+%%
 In the case of more than one reference of the same author or in the 
-case of a series of papers or books on the same argument, it is sometimes
+case of a series of papers or books on the same argument, it may be
 useful to use the \cmdname{moreref} command. The syntax is the following
+%%
 \begin{verbatim}
 
   \paperref{label name} or \bookref{label name}
@@ -197,39 +191,47 @@ useful to use the \cmdname{moreref} command. The syntax is the following
   \endref
 
 \end{verbatim}
+%%
 The effect is to use a single label reference for more than one book or
 paper. The optional command ``\verb'[punctation]''' can be used to 
-change the default punctation ``\verb';''' to something else for example
+change the default punctation ``\verb';''' to something else, for example
 you can use \cmdname{moreref}\verb'[, see also:]{book}'.
 
 
 \section{The command \cmdname{endref}}
-The command \cmdname{endref} ends the definition of a reference.
-By default the reference is ended with the punctation \verb';'.
+%%
+The command \cmdname{endref} closes the definition of a reference.
+By default the reference is closed by the semicolum \verb|;|.
 It is possible to change the default value as follows
+%%
 \begin{verbatim}
 
   \endref[punctation], for example \endref[.]
 
 \end{verbatim}
+%%
 This is useful for the last reference, for example
-%
+%%
 \EXAMPLE{docbib.2}
-%
+%%
 
 
 \section{The command \texttt{\char`\\refstyle}}
+%%
 There are many styles for display the labels of the bibliography. The
 standard \LaTeX{} way of changing the appearance is to modify the
 \cmdname{@bibitem} macro. A easiest way in \package{easybib} is to use
 \cmdname{refstyle} before \verb'\begin{thebibliography}'.
 The syntax is the following:
+%%
 \begin{verbatim}
 
   \refstyle{A} or \refstyle{B}  or  \refstyle{C}
 
 \end{verbatim}
+%%
 the effect is to change \cmdname{@bibitem} as follows
+%%
 \begin{center}
 \par
 \begin{tabular}{|l|l|c|}
@@ -248,19 +250,21 @@ the effect is to change \cmdname{@bibitem} as follows
 
 
 \section{An example of bibliography from \AmSTeX{} documentation}
-
+%%
 The following complex example shows the features of \envname{easybib}
 and is essentially the example showed in the \AmSTeX{} documentation
 translated in the language of \envname{easybib}.
-%
+%%
 \EXAMPLESPLIT{docbib.3}
-%
+%%
 \EXAMPLE{docbib.4}
-%
+%%
 
 
-\section{Changing the appearance}
-You can change the default formats by the command
+\section{Modifying the appearance}
+%%
+You can control the default formats by the command
+%%
 \begin{verbatim}
 
   \bibsetfmt[group name,item]{punctation}
@@ -268,18 +272,22 @@ You can change the default formats by the command
                              {end commands}
 
 \end{verbatim}
+%%
 for example
+%%
 \begin{verbatim}
 
   \bibsetfmt[paper,by]{,}{\textit}{:}
 
 \end{verbatim}
-%
-In this way you can change in an easy way the appearance of the
+%%
+This way you can easily modify the appearance of the
 bibliography.
 
 \section{Changing the order of the items}
-The order or the items:
+%%
+The order of the items:
+%%
 \begin{verbatim}
 
   for `paper' group:
@@ -292,9 +300,11 @@ The order or the items:
   pages,yr,lang,transl
 
 \end{verbatim}
+%%
 can be changed defining the macro \cmdname{paperlist} and
-\cmdname{booklist}. For example in order to have the \verb'yr' item 
-displayed after \verb'pages' item in the \verb'paper' group define:
+\cmdname{booklist}. For example to have the \verb|yr| item 
+displayed after \verb|pages| item in the \verb|paper| group define:
+%%
 \begin{verbatim}
 
   \def\paperlist{by,bysame,title,transl,jour,%
@@ -306,39 +316,40 @@ displayed after \verb'pages' item in the \verb'paper' group define:
 
 
 \section{Citing}
-%
-The following code
-%
+%%
+The following segment of code
+%%
 \EXAMPLE{docbib.5}
-%
-for the following bibliography
-\FRAMECODE{docbib.7.tex}
-%
+%%
+for the previous bibliography
+%%
 
 \section{Defining new styles}
-%
+%%
 If you do not like the predefined styles \verb'paper' and \verb'book'
 you can easily define new ones. For example suppose you want to 
 define a new style \verb'tales' with the item \cmdname{author},
 \cmdname{title}, \cmdname{year} with:
-
+%%
 \begin{desc}
-  \item[\char`\\author] in smallcaps style surrounded by a box
-  \item[\char`\\title] in italic style
-  \item[\char`\\year]  in bold style  within \verb'(...)'
+  \item[\cmdname{author}] in smallcaps style surrounded by a box
+  \item[\cmdname{title}] in italic style
+  \item[\cmdname{year}]  in bold style  within \verb|(...)|
 \end{desc}
-%
+%%
 you must follow the following steps
-%
+%%
 \begin{desc}
   \item[define the list of items]
+%%
 \begin{verbatim}
 
   \def\taleslist{author,title,year}
 
 \end{verbatim}
 %%
-  \item[define the command ``talesref'' with the items]
+  \item[define the command \cmdname{talesref} with the items]
+%%
 \begin{verbatim}
 
   \bibdefinestyles{tales}
@@ -349,6 +360,7 @@ you must follow the following steps
   \cmdname{year} with the default format and the command
   \cmdname{talesref}.
   \item[change the default formatting]
+%%
 \begin{verbatim}
 
   \bibsetfmt[tales,author]
@@ -359,6 +371,7 @@ you must follow the following steps
   \bibsetfmt[tales,year]{}{\bfseries(}{)}
 
 \end{verbatim}
+%%
 \end{desc}
 %
 The following example (which uses [definethebibliography])

@@ -1,1 +1,150 @@
-\newcommand{\package}[1]{\textsc{#1}}\newcommand{\envname}[1]{\textsf{#1}}\newcommand{\cmdname}[1]{\texttt{\char`\\#1}}\author{Enrico Bertolazzi\\ \\  Laboratorio di Matematica Applicata e Meccanica Computazionale\\  Dipartimento di Ingegneria Meccanica e Strutturale\\  Universit\`a degli Studi di Trento\\  Mesiano, Trento, Italy \\ \\  \Email{enrico.bertolazzi@ing.unitn.it} }%%%%%% HEADER PAGE%%%%begin{latexonly}\usepackage{fancyhdr}\fancypagestyle{fpage}{  \fancyhf{} % clear all  \fancyhead[el]{\fancyplain{}{\sffamily\bfseries\thepage}}  \fancyhead[er]{\fancyplain{}{\sffamily\bfseries\leftmark}}  \fancyhead[or]{\fancyplain{}{\sffamily\bfseries\thepage}}  \fancyhead[ol]{\fancyplain{}{\sffamily\bfseries\rightmark}}}\renewcommand{\headrulewidth}{0pt}%end{latexonly}%%%%%% LaTeX2HTML INCLUDES%%%\usepackage{html,htmllist,url,verbatim}\bodytext{BACKGROUND = "bk.jpg"}%begin{latexonly}\newcommand{\URL}{\begingroup\urlstyle{sf}\Url}\newcommand{\Email}{\begingroup\urlstyle{sf}\Url}%end{latexonly}\begin{htmlonly}\newcommand{\URL}[1]{\htmladdnormallink{#1}{#1}}\end{htmlonly}%%%% POSTSCRIPT AND FIGURES%%\usepackage{epsfig}\graphicspath{{:figure:}{figure/}}%begin{latexonly}\usepackage{amssymb}\newcommand{\CIRC}{$\circ$}\newcommand{\BULLET}{$\bullet$}%end{latexonly}\begin{htmlonly}\newcommand{\EXAMPLE}[1]{  \begin{BOXED}    \VRB{#1}    \input{#1}  \end{BOXED}}\newcommand{\EXAMPLEA}[1]{  \begin{BOXED}    \VRB{#1}    \input{#1}  \end{BOXED}}\newcommand{\EXAMPLESPLIT}[1]{  \begin{BOXED}    \VRB{#1.1.tex}    \VRB{#1.2.tex}    \input{#1.tex}  \end{BOXED}}\newcommand{\FRAMECODE}[1]{  \begin{BOXED}    \input{#1}  \end{BOXED}}\end{htmlonly}%begin{latexonly}\usepackage{fancyvrb}\newdimen\MINISIZE\newcommand{\VRB}[1]{  \par  \VerbatimInput[xleftmargin=\fboxsep,xrightmargin=\fboxsep]{#1}  \par}\newcommand{\FRAMEVRB}[1]{  \par  \VerbatimInput[xleftmargin=\fboxsep,                 xrightmargin=\fboxsep,                 frame=single]{#1}  \par}\newcommand{\FRAMECODE}[1]{  \MINISIZE=\textwidth\relax  \advance\MINISIZE-4\fboxsep\relax  \begin{center}  \par  \fbox{%  \begin{minipage}{\MINISIZE}  \input{#1}  \end{minipage}}  \par  \end{center}}\newcommand{\EXAMPLE}[1]{  \FRAMEVRB{#1.tex}  \FRAMECODE{#1.tex}}\newcommand{\EXAMPLEA}[1]{  \MINISIZE=\textwidth\relax  \advance\MINISIZE-4\fboxsep\relax  \begin{center}  \par  \fbox{%  \begin{minipage}{\MINISIZE}  \vskip\fboxsep%  \VerbatimInput[xleftmargin=\fboxsep,                 xrightmargin=\fboxsep,                 frame=single]{#1.tex}  \input{#1.tex}  \end{minipage}}  \par  \end{center}}\let\EXAMPLESPLIT\EXAMPLE%end{latexonly}\usepackage{easymat}%\usepackage{easybmat}%\usepackage[definevectors]{easyvector}\usepackage[math]{easyeqn}
+\newcommand{\package}[1]{\textsc{#1}}
+\newcommand{\envname}[1]{\textsf{#1}}
+\newcommand{\cmdname}[1]{\texttt{\char`\\#1}}
+
+\author{Enrico Bertolazzi\\ \\
+  Laboratorio di Matematica Applicata e Meccanica Computazionale\\
+  Dipartimento di Ingegneria Meccanica e Strutturale\\
+  Universit\`a degli Studi di Trento\\
+  Mesiano, Trento, Italy \\ \\
+  \Email{enrico.bertolazzi@ing.unitn.it} }
+
+%begin{latexonly}
+\usepackage{times}
+%end{latexonly}
+
+
+%%%
+%%% HEADER PAGE
+%%%
+%begin{latexonly}
+\usepackage{fancyhdr}
+\fancypagestyle{fpage}{
+  \fancyhf{} % clear all
+  \fancyhead[el]{\fancyplain{}{\sffamily\bfseries\thepage}}
+  \fancyhead[er]{\fancyplain{}{\sffamily\bfseries\leftmark}}
+  \fancyhead[or]{\fancyplain{}{\sffamily\bfseries\thepage}}
+  \fancyhead[ol]{\fancyplain{}{\sffamily\bfseries\rightmark}}
+}
+\renewcommand{\headrulewidth}{0pt}
+%end{latexonly}
+
+%%%
+%%% LaTeX2HTML INCLUDES
+%%%
+\usepackage{html,htmllist,url,verbatim}
+\bodytext{BACKGROUND = "bk.jpg"}
+%begin{latexonly}
+\newcommand{\URL}{\begingroup\urlstyle{sf}\Url}
+\newcommand{\Email}{\begingroup\urlstyle{sf}\Url}
+%end{latexonly}
+\begin{htmlonly}
+\newcommand{\URL}[1]{\htmladdnormallink{#1}{#1}}
+\end{htmlonly}
+
+%%
+%% POSTSCRIPT AND FIGURES
+%%
+\usepackage{epsfig}
+\graphicspath{{:figure:}{figure/}}
+
+%begin{latexonly}
+\usepackage{amssymb}
+\newcommand{\CIRC}{$\circ$}
+\newcommand{\BULLET}{$\bullet$}
+%end{latexonly}
+
+\begin{htmlonly}
+
+\newcommand{\EXAMPLE}[1]{
+  \begin{BOXED}
+    \VRB{#1}
+    \input{#1}
+  \end{BOXED}
+}
+
+\newcommand{\EXAMPLEA}[1]{
+  \begin{BOXED}
+    \VRB{#1}
+    \input{#1}
+  \end{BOXED}
+}
+
+\newcommand{\EXAMPLESPLIT}[1]{
+  \begin{BOXED}
+    \VRB{#1.1.tex}
+    \VRB{#1.2.tex}
+    \input{#1.tex}
+  \end{BOXED}
+}
+
+\newcommand{\FRAMECODE}[1]{
+  \begin{BOXED}
+    \input{#1}
+  \end{BOXED}
+}
+
+\end{htmlonly}
+
+%begin{latexonly}
+
+\usepackage{fancyvrb}
+
+\newdimen\MINISIZE
+\newcommand{\VRB}[1]{
+  \par
+  \VerbatimInput[xleftmargin=\fboxsep,xrightmargin=\fboxsep]{#1}
+  \par
+}
+
+\newcommand{\FRAMEVRB}[1]{
+  \par
+  \VerbatimInput[xleftmargin=\fboxsep,
+                 xrightmargin=\fboxsep,
+                 frame=single]{#1}
+  \par
+}
+
+\newcommand{\FRAMECODE}[1]{
+  \MINISIZE=\textwidth\relax
+  \advance\MINISIZE-4\fboxsep\relax
+  \begin{center}
+  \par
+  \fbox{%
+  \begin{minipage}{\MINISIZE}
+  \input{#1}
+  \end{minipage}}
+  \par
+  \end{center}
+}
+
+\newcommand{\EXAMPLE}[1]{
+  \FRAMEVRB{#1.tex}
+  \FRAMECODE{#1.tex}
+}
+
+\newcommand{\EXAMPLEA}[1]{
+  \MINISIZE=\textwidth\relax
+  \advance\MINISIZE-4\fboxsep\relax
+  \begin{center}
+  \par
+  \fbox{%
+  \begin{minipage}{\MINISIZE}
+  \vskip\fboxsep%
+  \VerbatimInput[xleftmargin=\fboxsep,
+                 xrightmargin=\fboxsep,
+                 frame=single]{#1.tex}
+  \input{#1.tex}
+  \end{minipage}}
+  \par
+  \end{center}
+}
+
+\let\EXAMPLESPLIT\EXAMPLE
+
+%end{latexonly}
+
+\usepackage{easymat}%
+\usepackage{easybmat}%
+\usepackage[definevectors]{easyvector}
+\usepackage[math]{easyeqn}
