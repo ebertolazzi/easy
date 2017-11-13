@@ -1,8 +1,8 @@
 %%% ====================================================================
 %%%  @LaTeX-style-file{
 %%%     author          = "Enrico Bertolazzi",
-%%%     version         = "0.8",
-%%%     date            = "16-MAR-99",
+%%%     version         = "1.0",
+%%%     date            = "13-JUN-2001",
 %%%     filename        = "easybmat.sty",
 %%%     address         = "Laboratorio di Matematica Applicata
 %%%                        e Meccanica Strutturale,
@@ -34,21 +34,25 @@
 %%%    /   \  /     /  \      /         /   \  /     /  \      /        %%%
 %%%   /____/ /____ /    \    /         /____/ /____ /    \    /         %%%
 %%% ====================================================================%%%
-\typeout{Document Style `easybmat'  version 0.8 <16-MAR-1999>.}
+%%% v 1.0 13-JUN-2001 changed \@roman with \romannumeral (thanks to Claudio Beccari) 
+\def\filedate{2006/11/13}
+\def\fileversion{v1.0.1}
+\typeout{Document Style `easybmat'  \fileversion\space<\filedate>.}
 %% BEGIN easybmat.sty
 %%
+
 \NeedsTeXFormat{LaTeX2e}
-\RequirePackage{easy}[1999/03/16]
-\ProvidesPackage{easybmat}[1999/03/16 v0.8]
+\RequirePackage{easy}
+\ProvidesPackage{easybmat}[\filedate\space\fileversion]
 
 \DeclareOption{thinlines}{%
-   \@bmat@size@rule=.7pt\relax
-   \@bmat@size@dash=.5pt\relax
+  \@bmat@size@rule=.7pt\relax
+  \@bmat@size@dash=.5pt\relax
 }
 
-\DeclareOption{thiklines}{%
-   \@bmat@size@rule=1.5pt\relax
-   \@bmat@size@dash=1.2pt\relax
+\DeclareOption{thicklines}{%
+  \@bmat@size@rule=1.5pt\relax
+  \@bmat@size@dash=1.2pt\relax
 }
 
 \newdimen\@bmat@size@rule\@bmat@size@rule=1pt\relax
@@ -62,79 +66,71 @@
 
 \def\@bmat@addcol{\g@addto@macro\@bmat@preamble{$\displaystyle{##}$&}}
 \def\@bmat@make@preamble{%
-   \@easy@let(@easy@align){@easy@col@align\@roman\@easy@level}%
-   \@easy@let(@easy@rules){@easy@col@rules\@roman\@easy@level}%
-   \gdef\@bmat@preamble{%
-       \vbox\bgroup\lineskip\z@skip%
-                   \tabskip\z@skip%
-                   \baselineskip\z@skip%
-                   \everycr{}\halign\bgroup}%
-   \@easy@rotate\@easy@align%
-   \loop%
-      \@easy@rotate\@easy@align%
-      \edef\@tempa{\@easy@firstchar\@easy@align}%
-   \expandafter\ifx\@tempa`\relax\else%
-      \@bmat@addcol%
-   \repeat%
-   \g@addto@macro\@bmat@preamble{$\displaystyle{##}$\crcr}
+  \@easy@let(@easy@align){@easy@col@align\romannumeral\@easy@level}%
+  \@easy@let(@easy@rules){@easy@col@rules\romannumeral\@easy@level}%
+  \gdef\@bmat@preamble{%
+    \vbox\bgroup\lineskip\z@skip%
+                \tabskip\z@skip%
+                \baselineskip\z@skip%
+                \everycr{}\halign\bgroup}%
+  \@easy@rotate\@easy@align%
+  \loop%
+    \@easy@rotate\@easy@align%
+    \edef\@tempa{\@easy@firstchar\@easy@align}%
+  \expandafter\ifx\@tempa`\relax\else%
+    \@bmat@addcol%
+  \repeat%
+  \g@addto@macro\@bmat@preamble{$\displaystyle{##}$\crcr}
 }
 
-
-\def\BMAT{\advance\@easy@level\@ne\@easy@ifnextchar({\@BMAT}{\@BMAT(@)}}
+\def\BMAT{%
+\advance\@easy@level\@ne\@easy@ifnextchar({\@BMAT}{\@BMAT(@)}}
 \def\@BMAT(#1){
-    \def\@bmat@split##1,##2,##3,##4\end{
-       \@easy@xdef(@bmat@balance\@roman\@easy@level){##1}%
-       \global\@nameuse{@easy@minx\@roman\@easy@level}=##2
-       \global\@nameuse{@easy@miny\@roman\@easy@level}=##3
-    }
-    \expandafter\@bmat@split#1,\z@,\z@, \end
-    \@@BMAT}
-    
+  \def\@bmat@split##1,##2,##3,##4\end{
+    \@easy@xdef(@bmat@balance\romannumeral\@easy@level){##1}%
+    \@easy@set@dim(@easy@minx\romannumeral\@easy@level){##2}
+    \@easy@set@dim(@easy@miny\romannumeral\@easy@level){##3}
+  }
+  \expandafter\@bmat@split#1,\z@,\z@, \end
+  \@@BMAT}
+  
 \def\@@BMAT{\@easy@ifnextchar[{\@@@BMAT}{\@@@BMAT[2pt]}}
 
 \def\@@@BMAT[#1]#2#3{
-    \def\@bmat@split##1,##2,##3,##4\end{
-       \@easy@xdef(@bmat@spread\@roman\@easy@level){##1}%
-       \global\@nameuse{@easy@maxx\@roman\@easy@level}=##2
-       \global\@nameuse{@easy@maxy\@roman\@easy@level}=##3
-    }
-    \expandafter\@bmat@split#1,\z@,\z@, \end
-	\@easy@parse@cols{#2}
-	\@easy@parse@rows{#3}%
-	\@bmat@make@preamble%
-    \def\\{\crcr}%
-    \global\let\@easy@path\@empty%
- 	\setbox\@nameuse{@easy@box\@roman\@easy@level}\@bmat@preamble%
+  \def\@bmat@split##1,##2,##3,##4\end{
+    \@easy@xdef(@bmat@spread\romannumeral\@easy@level){##1}%
+    \@easy@set@dim(@easy@maxx\romannumeral\@easy@level){##2}%
+    \@easy@set@dim(@easy@maxy\romannumeral\@easy@level){##3}
+  }
+  \expandafter\@bmat@split#1,\z@,\z@, \end
+  \@easy@parse@cols{#2}
+  \@easy@parse@rows{#3}%
+  \@bmat@make@preamble%
+  \def\\{\crcr}%
+  \global\let\@easy@path\@empty%
+  \setbox\@nameuse{@easy@box\romannumeral\@easy@level}\@bmat@preamble%
 }
 \def\endBMAT{%
-	\crcr\egroup\egroup%
-    \@easy@glet(@easy@mainbox)   {@easy@box\@roman\@easy@level}%
-    \@easy@glet(@easy@col@align) {@easy@col@align\@roman\@easy@level}%
-    \@easy@glet(@easy@col@rules) {@easy@col@rules\@roman\@easy@level}%
-    \@easy@glet(@easy@row@align) {@easy@row@align\@roman\@easy@level}%
-    \@easy@glet(@easy@row@rules) {@easy@row@rules\@roman\@easy@level}%
-    \@easy@glet(@easy@minx)      {@easy@minx\@roman\@easy@level}%
-    \@easy@glet(@easy@miny)      {@easy@miny\@roman\@easy@level}%
-    \@easy@glet(@easy@maxx)      {@easy@maxx\@roman\@easy@level}%
-    \@easy@glet(@easy@maxy)      {@easy@maxy\@roman\@easy@level}%
-    %
-    \@easy@glet(@easy@balance)   {@bmat@balance\@roman\@easy@level}%
-    \@easy@glet(@easy@spread)    {@bmat@spread\@roman\@easy@level}%
-    %
-    \global\let\@easy@size@dash\@bmat@size@dash
-    \global\let\@easy@size@rule\@bmat@size@rule
-    %
-    \@easy@evaldim%
+  \crcr\egroup\egroup%
+  \@easy@pop@parameters
+  %
+  \@easy@glet(@easy@balance){@bmat@balance\romannumeral\@easy@level}%
+  \@easy@glet(@easy@spread) {@bmat@spread\romannumeral\@easy@level}%
+  %
+  \global\let\@easy@size@dash\@bmat@size@dash
+  \global\let\@easy@size@rule\@bmat@size@rule
+  %
+  \@easy@evaldim%
 %     \typeout{Easybmat [row:\the\@easy@nrow,col:\the\@easy@ncol]}
-    \@easy@balance@row@col%
-    \@easy@buildbox%
-    \@easy@vlines%
-    \@easy@hlines%
-	\vcenter{\hbox{\rlap{\box\@ne}
-	               \rlap{\box\tw@}
-	               \ifx\@easy@path\@empty\else\@easy@dopath\rlap{\box\thr@@}\fi
-	               \box\@easy@mainbox}}%
-    \advance\@easy@level\m@ne%
+  \@easy@balance@row@col%
+  \@easy@buildbox%  
+  \@easy@vlines%
+  \@easy@hlines%
+  \vcenter{\hbox{\rlap{\box\@ne}
+	   \rlap{\box\tw@}
+	   \ifx\@easy@path\@empty\else\@easy@dopath\rlap{\box\thr@@}\fi
+	   \box\@easy@mainbox}}%
+  \advance\@easy@level\m@ne%
 }
 
 \@easy@enable@space

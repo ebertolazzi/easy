@@ -2,7 +2,7 @@
 \def\input@path{{../macros/}{../../macros/}}
 \makeatother
 
-\documentclass[twoside,a4paper]{article}
+\documentclass[a4paper,final,11pt]{article}
 
 \usepackage{mydoc}
 \input{mydoc.tex}
@@ -13,10 +13,11 @@
 
 \maketitle
 \begin{abstract}
-  The \package{easybmat} package is a macro package for writing block
-  matrices, with equal column widths or equal rows heights or both,
-  with various kinds of rules~(lines) between rows and columns.  It
-  uses an array/ta\-bular-like syntax.
+  The \package{easybmat}
+  package is a macro package for supporting block matrices
+  having equal column widths or equal rows heights or both,
+  and supporting various kinds of rules~(lines) between rows and columns.
+  The package is based on an array/ta\-bular-like syntax.       
 \end{abstract}
 
 
@@ -31,28 +32,30 @@
 \let\subsectionmark\sectionmark
 
 \section{Some examples with \package{easybmat}}
-Load the package in the usual way:
-%
+%%
+The package is loaded by means the usual way:
+%%
 \VRB{docbmat.1.tex}
-%
-The options \texttt{thinlines}, and \texttt{thiklines} are self
+%%
+The options \texttt{thinlines} and \texttt{thicklines} are self
 explanatory.  \package{easybmat} provides the
 \envname{BMAT}~environment which is a re-implementation of the
 array/tabular environment, with some limitation and some additional
 features.  The syntax is
-%
+%%
 \VRB{docbmat.2.tex}
-%
+%%
 or 
-%
+%%
 \VRB{docbmat.3.tex}
-%
+%%
 \begin{dotlist}
   %%
   \item
   %%
   \verb|(eq)| or \verb|(eq,mx,my)|.  By \verb|eq| you can balance
   the rows or the column or both, as shown in this table:
+  %%
   \begin{center}
     \par
     \textbf{Table 1.}\nobreak\\[1em]
@@ -69,20 +72,23 @@ or
     \end{tabular}
     \par
   \end{center}
+  %%
   By \verb|mx| and \verb|my| you can modify the minimum size of the
   box in the BMAT environment.  This must be a valid measure e.g.
-  2pt.  This is useful in writing matrices an vectors.
+  \verb|2pt|.  This is useful in writing matrices an vectors.
   %%
   \item
-  \verb|[ex]| or \verb|[ex,MX,MY]|.  By ``\verb|ex|'' you can specify
+  \verb|[ex]| or \verb|[ex,MX,MY]|.  By \verb|ex| you can specify
   the amount of extra space around the item in the \envname{BMAT}
   environment.  The default is \verb|2pt|.  By \verb|MX| and \verb|MY|
   you can modify the minimum size of the whole block matrix in the
-  \envname{BMAT} environment.  This must be a valid measure e.g.10cm.
+  \envname{BMAT} environment.  This must be a valid measure e.g.
+  \verb|10cm|.
   %%
   \item
-  The first \verb|`{cc...c}'| is the definition of the columns and
+  The first \verb|{cc...c}| is the definition of the columns and
   their alignment.  The possible alignment for the columns are:
+  %%
   \begin{center}
     \par
     \textbf{Table 2.}\nobreak\\[1em]
@@ -97,8 +103,9 @@ or
   \end{center}
   %%  
   \item
-  The second \verb|`{cc...c}'| is the definition of the rows their
+  The second \verb|{cc...c}| is the definition of the rows their
   alignment.  The possible alignment for the rows are:
+  %%
   \begin{center}
     \par
     \textbf{Table 3.}\nobreak\\[1em]
@@ -111,6 +118,7 @@ or
     \end{tabular}
     \par
   \end{center}
+  %%
 \end{dotlist}
 %
 %
@@ -118,11 +126,11 @@ or
 \textbf{IMPORTANT:} The package can manage matrices with a maximum of
 \verb|30| rows by \verb|30| columns.
 
-It is possible to produce rules between columns or rows as this
+It is possible to produce rules among columns or rows as this
 example shows:
-%
+%%
 \EXAMPLEA{docbmat.4}
-%
+%%
 The available rules for the rows and columns are
 \begin{center}
   \par
@@ -148,40 +156,39 @@ The available rules for the rows and columns are
   \end{tabular}
   \par
 \end{center}
+%%
 The main feature of the \envname{BMAT}~environment
 is that it is reentrant as shown here:
-%
+%%
 \EXAMPLEA{docbmat.5}
-%
-\textbf{IMPORTANT:} The package can manage a reentrance of a maximum 
+%%
+\textbf{IMPORTANT:} The package can manage a maximum reentrance
 of \verb|8| levels.
 
-
-\latex{\clearpage}
 \section{An example with balancing}
-Here it is showed the effect of various balancing:
+%%
+The effect of various balancing is best seen below:
 %
 \EXAMPLEA{docbmat.6}
 %
 
-\latex{\clearpage}
 \section{Some example with minimal size setting}
 It is possible to specify the minimal size of the item inside a
 ``BMAT'' environment, as shown here
-%
+%%
 \EXAMPLEA{docbmat.7}
-%
-It is possible to specify the total minimal size of a ``BMAT''
-environment, as shown here
-%
+%%
+It is possible to specify the total minimal size of a
+\envname{BMAT} environment, as shown here
+%%
 \EXAMPLEA{docbmat.8}
-%
+%%
 
-\latex{\clearpage}
 \section{An example with various size rules}
+%%
 This example shows the use of various size rule in \envname{BMAT} 
 environment:
-%
+%%
 \EXAMPLEA{docbmat.9}
 %
 
@@ -195,9 +202,9 @@ is the following
 where
 \begin{desc}
   %%
-  \item["x' and `y']
-  are the integer coordinate of the starting point.  The left down
-  corner is at coordinate $x=0$, $y=0$.
+  \item[x and y]
+  are the integer coordinate of the starting point.
+  The down left corner is at $x=0$, $y=0$.
   %%
   \item[rule]
   is the code of a valid rule as described in table 4.
@@ -205,6 +212,7 @@ where
   \item[path]
   is a string describing the path.  Each letter of the string is a
   movement coded as follows:
+  %%
   \begin{center}
     \par
     \textbf{Table 5.} \\[1em]
@@ -220,29 +228,31 @@ where
     \end{tabular}
     \par
   \end{center}
+  %%
 \end{desc}
-%
+%%
 The following example shows the use of \cmdname{addpath},
-%
+%%
 \EXAMPLEA{docbmat.11}
-%
+%%
 This is another example
-%
+%%
 \EXAMPLEA{docbmat.12}
-%
+%%
 
 
 \section{An example with reentrance}
+%%
 This final example shows a slightly more complex (reentrant)
 definition in which the \envname{BMAT}~environment is used:
-%
+%%
 \VRB{docbmat.13.tex}
-%
+%%
 It produces the following output:
 \typeout{This example can take a while to compile on small machine, please wait...}
-%
+%%
 \FRAMECODE{docbmat.13.tex}
-%
+%%
 \typeout{...thanks, I have done}
 
 \end{document}

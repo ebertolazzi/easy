@@ -34,12 +34,14 @@
 %%%    /   \  /     /  \      /         \  /   / /       /              %%%
 %%%   /____/ /____ /    \    /       \__/  \__/ /       /               %%%
 %%% ====================================================================%%%
-\typeout{Document Style `easybib'  version 0.7 <16-MAR-1999>.}
+\def\filedate{1999/03/16}
+\def\fileversion{v0.7}
+\typeout{Document Style `easybib'  \fileversion\space<\filedate>.}
 %% BEGIN easybib.sty
 %%
 \NeedsTeXFormat{LaTeX2e}
 \RequirePackage{easy}
-\ProvidesPackage{easybib}[1999/03/16 v0.7]
+\ProvidesPackage{easybib}[\filedate\space\fileversion]
 
 \@ifundefined{refname}{\gdef\refname{References}}{}
 \@ifundefined{bibname}{\gdef\refname{Bibliography}}{}

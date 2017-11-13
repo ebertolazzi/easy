@@ -1,11 +1,11 @@
 %%% ====================================================================
 %%%  @LaTeX-style-file{
 %%%     author          = "Enrico Bertolazzi",
-%%%     version         = "1.6",
-%%%     date            = "9-APR-2000",
+%%%     version         = "1.96",
+%%%     date            = "22-JUNE-2004",
 %%%     filename        = "easyeqn.sty",
-%%%     address         = "Laboratorio di Matematica Applicata
-%%%                        e Meccanica Strutturale,
+%%%     address         = "Dipatimento di Ingegneria
+%%%                        Meccanica e Strutturale,
 %%%                        Trento University,
 %%%                        Via Mesiano, Trento, Italy",
 %%%     FAX             = "+39 (461) 882599",
@@ -47,6 +47,15 @@
 %%% v 1.4 added commands \eqlabeltop, \eqlabelbot, \eqlabelcenter
 %%% v 1.5 fixed a bug on allnumber
 %%% v 1.6 fixed a bug on equation number alignment
+%%% v 1.7 fixed a bug on equation number vertical alignment
+%%% v 1.8 fixed a bad spacing with \baselinestretch
+%%% v 1.9 13-JUN-2001 changed \@roman with \romannumeral (thanks to Claudio Beccari) 
+%%% v 1.91 19-JUN-2001 fixed a bug in \eqlabel introduced in version 1.9 
+%%% v 1.92 18-JULY-2001 improved equation spacing 
+%%% v 1.93 23-AUG-2001 correct a bug with showkeys
+%%% v 1.94 18-MAR-2002 fixed a bug compatibility with hyperref
+%%% v 1.95 20-APR-2002 fixed a bug on EQS with easyold option
+%%% v 1.96 4-OCT-2003 addedd TotDer and more function of ParDer
 %%% ====================================================================%%%
 %%%       ___    ____  ___   _   _         ___    ____  ___   _   _     %%%
 %%%      /   \  /     /   \  \  /         /   \  /     /   \  \  /      %%%
@@ -54,16 +63,18 @@
 %%%    /   \  /     /  \      /         /   \  /     /  \      /        %%%
 %%%   /____/ /____ /    \    /         /____/ /____ /    \    /         %%%
 %%% ====================================================================%%%
-\typeout{Document Style `easyeqn' version 1.6 <9-APR-2000>.}
+\def\filedate{2003/10/04}
+\def\fileversion{v1.96}
+\typeout{Document Style `easyeqn' \fileversion\space<\filedate>.}
 %% BEGIN easyeqn.sty
 %%
 \NeedsTeXFormat{LaTeX2e}
-\RequirePackage{easy}[1999/08/30 v1.0]
-\ProvidesPackage{easyeqn}[2000/04/09 v1.6]
+\RequirePackage{easy}
+\ProvidesPackage{easyeqn}[\filedate\space\fileversion]
 
 \@easy@disable@space
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newdimen\@EQ@leftmargin\@EQ@leftmargin\leftmargini
 \newdimen\@EQ@col@sep\@EQ@col@sep=2pt
 
@@ -82,6 +93,43 @@
 \newcommand{\numberleft}{\global\let\@EQ@NUM\@EQ@NUM@LEFT}
 \newcommand{\numberright}{\global\let\@EQ@NUM\@EQ@NUM@RIGHT}
 
+\newcommand{\easyvectorusesymbols}{%
+    \def\DIV##1{\nabla\cdot##1}
+    \def\GRAD##1{\nabla##1}
+    \def\LAPLA##1{\Delta##1}
+    \def\ROTOR##1{\nabla\wedge##1}
+    \def\CURL##1{\nabla\wedge##1}
+}
+
+\newcommand{\easyvectoruseletters}{%
+    \def\DIV##1{\textrm{div}##1}
+    \def\GRAD##1{\textrm{grad}##1}
+    \def\LAPLA##1{\Delta##1}
+    \def\ROTOR##1{\textrm{rot}##1}
+    \def\CURL##1{\textrm{curl}##1}
+}
+
+\newcommand{\easyparderstandard}{%
+    \def\ParDer[{%
+        \global\@EQ@DIFF@n=\z@
+        \global\@EQ@DIFF@ntot=\z@
+        \global\let\@EQ@DIFF@x\@empty
+        \global\let\@EQ@DIFF@oldx\@empty
+        \global\let\@EQ@DIFF@close\@EQ@DIFF@close@standard
+        \global\let\@EQ@DIFF@dsymbol\partial
+        \futurelet\@tempb\@EQ@DIFF@parsea}
+}
+\newcommand{\easyparderinline}{%
+    \def\ParDer[{%
+        \global\@EQ@DIFF@n=\z@
+        \global\@EQ@DIFF@ntot=\z@
+        \global\let\@EQ@DIFF@x\@empty
+        \global\let\@EQ@DIFF@oldx\@empty
+        \global\let\@EQ@DIFF@close\@EQ@DIFF@close@inline
+        \gdef\@EQ@DIFF@dsymbol{\partial_}
+        \futurelet\@tempb\@EQ@DIFF@parsea}
+}
+
 \def\@EQ@reset@numbering{\global\let\if@EQ@numbering\iffalse}
 
 \DeclareOption{allnumber}{%
@@ -96,7 +144,7 @@
 
 \DeclareOption{math}{%
 
-    \def\binom#1#2{{#1 \atopwithdelims() #2}}
+    \def\binom#1#2{{#1\atopwithdelims()#2}}
 
     \def\abs#1{\left\vert#1\right\vert}
     \def\norm#1{\left\Vert#1\right\Vert}
@@ -117,53 +165,61 @@
     \def\eqbox{\@ifnextchar(\@EQ@box{\@EQ@box(.25pt,3pt)}}
     \def\@EQ@box(#1,#2)#3{\fboxrule#1\fboxsep#2\fbox{$\displaystyle#3$}}
 
-    \newcount\@EQ@DP@n\@EQ@DP@n=\z@
-    \newcount\@EQ@DP@nt\@EQ@DP@nt=\m@ne
-    
-    \def\ParDer[{%
-        \global\@EQ@DP@n=\z@
-        \global\@EQ@DP@nt=\z@
-        \global\let\@EQ@DP@x\@empty
-        \global\let\@EQ@DP@oldx\@empty
-        \futurelet\@tempb\@EQ@DP@parsea}
+    \newcount\@EQ@DIFF@n\@EQ@DIFF@n=\z@
+    \newcount\@EQ@DIFF@ntot\@EQ@DIFF@ntot=\m@ne
+
+    \easyparderstandard
 %
-    \def\@EQ@DP@parsea{\futurelet\@tempb\@EQ@DP@parseb}
-    \def\@EQ@DP@parseb{%
-       \let\next\@EQ@DP@eat%
-       \ifx]\@tempb\let\next\@EQ@DP@close\else%
-       \ifx\bgroup\@tempb\let\next\@EQ@DP@bgroup\fi\fi%
+    \def\TotDer[{%
+        \global\@EQ@DIFF@n=\z@
+        \global\@EQ@DIFF@ntot=\z@
+        \global\let\@EQ@DIFF@x\@empty
+        \global\let\@EQ@DIFF@oldx\@empty
+        \global\let\@EQ@DIFF@close\@EQ@DIFF@close@standard
+        \gdef\@EQ@DIFF@dsymbol{\mathrm{d}}
+        \futurelet\@tempb\@EQ@DIFF@parsea}
+%
+    \def\@EQ@DIFF@parsea{\futurelet\@tempb\@EQ@DIFF@parseb}
+    \def\@EQ@DIFF@parseb{%
+       \let\next\@EQ@DIFF@eat%
+       \ifx]\@tempb\let\next\@EQ@DIFF@close\else%
+       \ifx\bgroup\@tempb\let\next\@EQ@DIFF@bgroup\fi\fi%
        \next}%
 %
-    \def\@EQ@DP@close#1#2{%
-        \@EQ@DP@eat\end
-        \ifnum\@ne=\@EQ@DP@nt\let\tmp\@empty\else\def\tmp{^{\the\@EQ@DP@nt}}\fi
-        \frac{\partial\tmp#2}{\@EQ@DP@x}}%
+    \def\@EQ@DIFF@close@inline#1#2{%
+        \@EQ@DIFF@eat\end
+        \ifnum\@ne=\@EQ@DIFF@ntot\let\tmp\@empty\else\def\tmp{^{\the\@EQ@DIFF@ntot}}\fi
+        \@EQ@DIFF@x#2}%
 %
-    \def\@EQ@DP@bgroup#1{\@EQ@DP@eat{#1}}
+    \def\@EQ@DIFF@close@standard#1#2{%
+        \@EQ@DIFF@eat\end
+        \ifnum\@ne=\@EQ@DIFF@ntot\let\tmp\@empty\else\def\tmp{^{\the\@EQ@DIFF@ntot}}\fi
+        \frac{\@EQ@DIFF@dsymbol\tmp#2}{\@EQ@DIFF@x}}%
+%
+    \def\@EQ@DIFF@bgroup#1{\@EQ@DIFF@eat{#1}}
     
-    \gdef\@EQ@DP@eat#1{%
-        \let\@EQ@DP@tmpa\@empty
-        \g@addto@macro\@EQ@DP@tmpa{#1}
-        \ifx\@EQ@DP@oldx\@EQ@DP@tmpa
+    \gdef\@EQ@DIFF@eat#1{%
+        \let\@EQ@DIFF@tmpa\@empty
+        \g@addto@macro\@EQ@DIFF@tmpa{#1}
+        \ifx\@EQ@DIFF@oldx\@EQ@DIFF@tmpa
         \else% new symbol added
-           \ifx\@EQ@DP@oldx\@empty\else
-              \g@addto@macro\@EQ@DP@x{\partial\bgroup}
-              \expandafter\g@addto@macro\expandafter\@EQ@DP@x\expandafter{\@EQ@DP@oldx\egroup}
-              \ifnum\@ne=\@EQ@DP@n\else%
-                 \edef\@EQ@DP@tmpb{\noexpand\g@addto@macro\noexpand\@EQ@DP@x{^{\the\@EQ@DP@n}}}
-                 \@EQ@DP@tmpb
+           \ifx\@EQ@DIFF@oldx\@empty\else
+              \g@addto@macro\@EQ@DIFF@x{\@EQ@DIFF@dsymbol\bgroup}
+              \expandafter\g@addto@macro\expandafter\@EQ@DIFF@x\expandafter{\@EQ@DIFF@oldx\egroup}
+              \ifnum\@ne=\@EQ@DIFF@n\else%
+                 \edef\@EQ@DIFF@tmpb{\noexpand\g@addto@macro\noexpand\@EQ@DIFF@x{^{\the\@EQ@DIFF@n}}}
+                 \@EQ@DIFF@tmpb
               \fi
-              \global\advance\@EQ@DP@nt by \@EQ@DP@n\global\@EQ@DP@n=\z@
+             \g@addto@macro\@EQ@DIFF@x{\,}
+              \global\advance\@EQ@DIFF@ntot by \@EQ@DIFF@n\global\@EQ@DIFF@n=\z@
            \fi
-           \global\let\@EQ@DP@oldx\@EQ@DP@tmpa
+           \global\let\@EQ@DIFF@oldx\@EQ@DIFF@tmpa
         \fi
-        \global\advance\@EQ@DP@n by \@ne
-        \ifx#1\end\else\expandafter\@EQ@DP@parsea\fi
+        \global\advance\@EQ@DIFF@n by \@ne
+        \ifx#1\end\else\expandafter\@EQ@DIFF@parsea\fi
     }
 
-    \newcommand{\DIV}[1]{\nabla\cdot#1}
-    \newcommand{\GRAD}[1]{\nabla#1}
-    \newcommand{\LAPLA}[1]{\Delta#1}
+    \easyvectorusesymbols
         
     \newcommand{\SUM}{\@ifnextchar[\@SUM\@@SUM}
     \def\@SUM[#1]#2#3{{\sum\limits_{#2}^{#3}\!\vphantom{\sum\limits_{#2}^{#3}}^{^{(#1)}}}}
@@ -172,8 +228,7 @@
     \newcommand{\PROD}{\@ifnextchar[\@PROD\@@PROD}
     \def\@PROD[#1]#2#3{{\prod\limits_{#2}^{#3}\!\vphantom{\prod\limits_{#2}^{#3}}^{^{(#1)}}}}
     \def\@@PROD#1#2{\prod\limits_{#1}^{#2}}
-    
-    
+ 
     \def\@EQ@parse@extra{%
     \gdef\@EQ@bformat{\vcenter\bgroup\normalbaselines\m@th\ialign\bgroup}%
     \global\let\@EQ@cmdadd\@empty\@EQ@parsea}
@@ -185,15 +240,14 @@
     \newenvironment{MATRIX}
     {\,\vcenter\bgroup\everycr{}\let\@EQ@rowsep\smallskip\let\\\@EQ@CR
     \halign\bgroup\hfil$\mathstrut##$\hfil&&\quad\hfil$\mathstrut##$\hfil\crcr}
-    {\crcr\egroup\egroup\,}
-    
-} 
+    {\crcr\egroup\egroup\,}   
+}
 
 \@easy@enable@space
 
 \let\@EQ@file@input\jobname
 
-\DeclareOption{warning}{
+\DeclareOption{warning}{%
    \newcount\@EQ@level\@EQ@level=\@ne%
    \xdef\@EQ@file@inputi{\jobname.tex}
    \xdef\@EQ@file@input{\jobname.tex}
@@ -206,11 +260,11 @@
    }
    \gdef\@EQ@input#1{%
        \global\advance\@EQ@level by \@ne
-       \expandafter\xdef\csname @EQ@file@input\@roman\@EQ@level\endcsname{#1}
-       \xdef\@EQ@file@input{\csname @EQ@file@input\@roman\@EQ@level\endcsname}
+       \expandafter\xdef\csname @EQ@file@input\romannumeral\@EQ@level\endcsname{#1}
+       \xdef\@EQ@file@input{\csname @EQ@file@input\romannumeral\@EQ@level\endcsname}
        \@EQ@old@input{#1}%
        \global\advance\@EQ@level by \m@ne
-       \xdef\@EQ@file@input{\csname @EQ@file@input\@roman\@EQ@level\endcsname}
+       \xdef\@EQ@file@input{\csname @EQ@file@input\romannumeral\@EQ@level\endcsname}
    }
    \global\let\@EQ@old@input\input%
    \AtBeginDocument{\global\let\input\@EQ@input@shade}%
@@ -223,18 +277,19 @@
    }
 }
 
-\DeclareOption{easyold}{
-
-    \def\EQS{\@EQ@NUMBER\@easy@ifnextchar[\@EQ@ALIGN{\@EQ@ALIGN[rl]}}
-    \let\endEQS\end@EQ@ALIGN
- 
-    \@easy@def(EQ*) {\@EQ@NO@NUMBER\@easy@ifnextchar[\@EQ@ALIGN{\@EQ@ALIGN[c]}}
-    \@easy@def(EQS*){\@EQ@NO@NUMBER\@easy@ifnextchar[\@EQ@ALIGN{\@EQ@ALIGN[rl]}}
-    \@easy@def(EQA*){\@EQ@NO@NUMBER\@easy@ifnextchar[\@EQ@A@ALIGN{\@EQ@A@ALIGN[rl]}}
-
-    \@easy@let(EQ*) {end@EQ@ALIGN}
-    \@easy@let(EQS*){end@EQ@ALIGN}
-    \@easy@let(EQA*){end@EQ@A@ALIGN}
+\DeclareOption{easyold}{%
+   \AtBeginDocument{
+      \def\EQS{\@EQ@NUMBER\@easy@ifnextchar[\@EQ@ALIGN{\@EQ@ALIGN[rl]}}
+      \let\endEQS\end@EQ@ALIGN
+      %
+      \@easy@def(EQ*) {\@EQ@NO@NUMBER\@easy@ifnextchar[\@EQ@ALIGN{\@EQ@ALIGN[c]}}
+      \@easy@def(EQS*){\@EQ@NO@NUMBER\@easy@ifnextchar[\@EQ@ALIGN{\@EQ@ALIGN[rl]}}
+      \@easy@def(EQA*){\@EQ@NO@NUMBER\@easy@ifnextchar[\@EQ@A@ALIGN{\@EQ@A@ALIGN[rl]}}
+      %
+      \@easy@let(EQ*) {end@EQ@ALIGN}
+      \@easy@let(EQS*){end@EQ@ALIGN}
+      \@easy@let(EQA*){end@EQ@A@ALIGN}
+   }
 }
 
 \def\@EQ@warning@nolabel{%
@@ -247,13 +302,12 @@
 \def\@EQ@newreference#1{\@easy@glet(r@eq@#1){@empty}}
 \def\@EQ@addreference#1{\@bsphack\protected@write\@auxout{}{\string\@EQ@newreference{#1}}\@esphack}
 
-\let\@EQ@old@ref\ref
 \def\refeq#1{\protect\@EQ@addreference{#1}\@EQ@old@ref{#1}}
-\def\eqref#1{\hbox{\reset@font(\refeq{#1})}}
+\def\eqref#1{\hbox{\@EQ@base@format(\refeq{#1})}}
 
 \def\@EQ@write@warning#1{}
 
-\def\@EQ@NUMBER{\let\@EQ@old@label\label\let\label\eqlabel\@EQ@reset@numbering}
+\def\@EQ@NUMBER{\let\label\eqlabel\@EQ@reset@numbering}
 \def\@EQ@NO@NUMBER{\let\label\@EQ@warning@nolabel}
 
 \eqrowsep{7pt}
@@ -264,38 +318,41 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\def\@EQ@custom@eqnum#1{\xdef\@EQ@eqnum{#1}}
-\def\@EQ@base@eqnum{\reset@font\rmfamily(\theequation)}%
+\def\@EQ@base@format{\normalfont\normalcolor}%
+\def\@EQ@base@eqnum{\@EQ@base@format(\theequation)}%
 \def\@EQ@stepnumber{\refstepcounter{equation}}
 
-\newcommand{\yesnumber}{\@EQ@stepnumber\global\let\if@EQ@numbering\iftrue\global\let\@EQ@eqnum\@EQ@base@eqnum}
+\newcommand{\yesnumber}{%
+\@EQ@stepnumber%
+\global\let\if@EQ@numbering\iftrue%
+\global\let\@EQ@eqnum\@EQ@base@eqnum}
 
-\newcommand{\eqlabel}{\@ifnextchar[\@EQ@a\@EQ@x}
+\newcommand{\eqlabel}{\global\let\@EQ@eqnum\@EQ@base@eqnum\@ifnextchar[\@EQ@a\@EQ@x}
 \def\@EQ@x{\@ifnextchar(\@EQ@b\@EQ@c}
 \def\@EQ@a[#1]{\@EQ@customlabel{#1}{#1}}
 \def\@EQ@b(#1){\@EQ@customlabel{(#1)}{#1}}
 \def\@EQ@customlabel#1#2{%
    \begingroup
-       \def~{\theequation}
-       \@EQ@custom@eqnum{#1}
-       \xdef\@currentlabel{#2}
+      \def~{\theequation}
+      \xdef\@EQ@eqnum{\noexpand\@EQ@base@format#1}
+      \xdef\@currentlabel{#2}
    \endgroup
    \global\let\if@EQ@numbering\iftrue
-   \@ifnextchar\bgroup{\@EQ@old@label}{}}
+   \@ifnextchar\bgroup{\@EQ@d}{}}
 
-\def\@EQ@set@label#1{}
 \def\@EQ@c#1{%
-   \global\let\@EQ@eqnum\@EQ@base@eqnum
-   \@ifundefined{r@eq@#1}{\@EQ@write@warning{#1}\@EQ@set@label{#1}}
+   \@EQ@SK@label{#1}
+   \@ifundefined{r@eq@#1}{\@EQ@write@warning{#1}}
    {\@EQ@stepnumber\global\let\if@EQ@numbering\iftrue\@EQ@old@label{#1}}
 }
 
-\def\@EQ@CR{{\ifnum0=`}\fi\@EQ@CR@}
+\def\@EQ@d#1{\@EQ@SK@label{#1}\@EQ@old@label{#1}}
+
+\def\@EQ@CR{\global\let\@EQ@eqbox@do\@EQ@eqbox{\ifnum0=`}\fi\@EQ@CR@}
 \def\@EQ@CR@{\@ifnextchar[\@EQ@CR@@{\@EQ@CR@@[\z@]}}
 \def\@EQ@CR@@[#1]{%
     \ifnum0=`{\fi}
     \crcr\noalign{\@EQ@rowsep\vskip#1\relax}
-    \global\let\@EQ@eqbox@in\@EQ@eqbox%
 }
 
 \def\@EQ@NL{{\ifnum0=`}\fi\@EQ@NL@}
@@ -310,6 +367,16 @@
    \ifx#2l\else\hfil\fi
    $\displaystyle#3$
    \ifx#2r\else\hfil\fi}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Do Label
+ 
+\def\@EQ@SK@label#1{}
+\let\@EQ@SK@left\@empty
+\let\@EQ@SK@right\@empty
+
+\def\@EQ@NUM@LEFT{\llap{\hb@xt@\displaywidth{\@EQ@SK@left\if@EQ@numbering\@EQ@eqnum\fi\hss}}}
+\def\@EQ@NUM@RIGHT{\@EQ@SK@right\if@EQ@numbering\llap{\@EQ@eqnum}\fi}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Parser zone
@@ -345,17 +412,31 @@
           \@tempa
        \fi
    \fi}
-
    
-\def\eqlabeltop{\let\@EQ@eqbox\vtop}
-\def\eqlabelbot{\let\@EQ@eqbox\vbox}
-\def\eqlabelcenter{\let\@EQ@eqbox\vcenter}
+\def\@EQ@skip{\vskip\baselinestretch\floatsep}
+\def\eqlabeltop{\def\@EQ@eqbox##1{\vtop{##1\@EQ@skip}}}
+\def\eqlabelbot{\def\@EQ@eqbox##1{\vbox{\@EQ@skip##1}}}
+\def\eqlabelcenter{\def\@EQ@eqbox##1{\vbox{\@EQ@skip}\vcenter{##1}\vbox{\@EQ@skip}}}
 
-\let\@EQ@eqbox\vcenter
-\newbox\@EQ@box@equation
+\eqlabelcenter
 
+\newbox\@EQ@EQN@BOX
+%
+\def\@EQ@A@ALIGN[#1]{%
+  \expandafter\@EQ@parse#1\end
+  \let\\\@EQ@NL%
+  $$\@EQ@surround\@EQ@bformat\tabskip\@centering&\tabskip\z@skip\hb@xt@\z@{\hss##}\crcr}
+%
 \def\end@EQ@A@ALIGN{&\@EQ@NUM\crcr\egroup$$\@ignoretrue}
-\def\end@EQ@ALIGN{\crcr\egroup\egroup\@EQ@eqbox@in{\box\@EQ@box@equation}\@EQ@NUM$$\@ignoretrue}
+
+\def\@EQ@ALIGN[#1]{%
+  \expandafter\@EQ@parse#1\end
+  \let\\\@EQ@CR%
+%   \def\@EQ@eqbox@do##1{\vbox{\@EQ@skip}\vbox{##1}\vbox{\@EQ@skip}}
+  \let\@EQ@eqbox@do\vbox
+  $$\@EQ@surround\setbox\@EQ@EQN@BOX\vbox\bgroup\@EQ@bformat\tabskip\@centering\crcr}
+%
+\def\end@EQ@ALIGN{\crcr\egroup\egroup\@EQ@eqbox@do{\unvbox\@EQ@EQN@BOX}\@EQ@NUM$$\@ignoretrue}
 
 \def\EQ{\@EQ@NUMBER\@easy@ifnextchar[\@EQ@ALIGN{\@EQ@ALIGN[c]}}
 \let\endEQ\end@EQ@ALIGN
@@ -363,45 +444,27 @@
 \def\EQA{\@EQ@NUMBER\@easy@ifnextchar[\@EQ@A@ALIGN{\@EQ@A@ALIGN[rcl]}}
 \let\endEQA\end@EQ@A@ALIGN
 
+
 \AtBeginDocument{%
 %
+  \let\@EQ@old@ref\ref
+  \let\@EQ@old@label\label
+%
   \@ifundefined{SK@label}{%
-    \def\@EQ@A@ALIGN[#1]{%
-      \expandafter\@EQ@parse#1\end
-      \let\\\@EQ@NL%
-      $$\@EQ@surround\@EQ@bformat\tabskip\@centering&\tabskip\z@skip\hb@xt@\z@{\hss##}\crcr}
-%
-    \def\@EQ@ALIGN[#1]{%
-      \global\let\@EQ@eqbox@in\vbox%
-      \expandafter\@EQ@parse#1\end
-      \let\\\@EQ@CR%
-      $$\@EQ@surround\setbox\@EQ@box@equation\vbox\bgroup\@EQ@bformat\tabskip\@centering\crcr}
-%
-    \def\@EQ@NUM@LEFT{\llap{\hb@xt@\displaywidth{\if@EQ@numbering\@EQ@eqnum\fi\hss}}}
-    \def\@EQ@NUM@RIGHT{\if@EQ@numbering\llap{\@EQ@eqnum}\fi}
   }{%
-    \def\@EQ@set@label#1{\gdef\SK@lab{\smash{\SK@labelcolor\fbox{\normalfont\small\ttfamily#1}}}}
-%
-    \def\@EQ@A@ALIGN[#1]{%
-      \expandafter\@EQ@parse#1\end
-      \let\\\@EQ@NL%
-      \def\SK@@label##1>##2\SK@{\@EQ@set@label{##2}}
-      $$\@EQ@surround\@EQ@bformat\tabskip\@centering&\tabskip\z@skip\hb@xt@\z@{\hss##}\crcr}
-%
-    \def\@EQ@ALIGN[#1]{%
-      \global\let\@EQ@eqbox@in\vbox%
-      \expandafter\@EQ@parse#1\end
-      \let\\\@EQ@CR%
-      \def\SK@@label##1>##2\SK@{\@EQ@set@label{##2}}
-      $$\@EQ@surround\setbox\@EQ@box@equation\vbox\bgroup\@EQ@bformat\tabskip\@centering\crcr}
-%
-    \def\@EQ@NUM@LEFT{\llap{\hb@xt@\displaywidth{\llap{\SK@lab\kern\marginparsep}\SK@lab@relax\if@EQ@numbering\@EQ@eqnum\fi\hss}}}
-    \def\@EQ@NUM@RIGHT{\rlap{\kern\marginparsep\SK@lab}\SK@lab@relax\if@EQ@numbering\llap{\@EQ@eqnum}\fi}
+    \def\@EQ@SK@left{\llap{\@EQ@SK@lab\kern\marginparsep}\global\let\SK@lab\@empty}
+    \def\@EQ@SK@right{\rlap{\kern\marginparsep\@EQ@SK@lab}\global\let\SK@lab\@empty}
+    \def\@EQ@SK@label#1{%
+       \gdef\@EQ@SK@lab{%
+         \edef\@tempa{#1}
+         \smash{\SK@labelcolor\fbox{\normalfont\small\ttfamily\expandafter\strip@prefix\meaning\@tempa}}%
+       }
+    }
+    \@ifundefined{ltx@label}{\let\@EQ@old@label\SK@label}{}
   }
   \if@EQ@number@left\numberleft\else\numberright\fi
   \let\if@EQ@number@left\relax
 }
-
 
 \@easy@enable@space
 

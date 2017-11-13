@@ -3,11 +3,12 @@
 #  Extension to LaTeX2HTML to load further features from                   #
 #  the EASYEQN package.                                                    #
 #                                                                          #
-#  date         : 1999, Sept. 12                                           #
-#  release      : 1.0 (beta)                                               #
-#  file         : easyeqn.perl                                             #
-#  author       : Enrico Bertolazzi                                        #
-#  email        : enrico.bertolazzi@ing.unitn.it,                          #
+#  date          : 2002, March 18                                          #
+#  release       : 1.1 (beta)                                              #
+#  first release : 1999, Sept. 12                                          #
+#  file          : easyeqn.perl                                            #
+#  author        : Enrico Bertolazzi                                       #
+#  email         : enrico.bertolazzi@ing.unitn.it,                         #
 #                                                                          #
 #  This program is free software; you can redistribute it and/or modify    #
 #  it under the terms of the GNU General Public License as published by    #
@@ -270,7 +271,7 @@ sub do_env_EQA {
 	$outeqn = join('',
 	               $outeqn,
 		       "\n<tr>",
-		       "\n  <td WIDTH=\"10%\" ALIGN=\"LEFT\">",
+		       "\n  <td WIDTH=\"10%\" VALIGN=CENTER ALIGN=\"LEFT\">",
 		       $label_left,
 		       "</td>",
 		       $fill_left,
@@ -283,7 +284,7 @@ sub do_env_EQA {
 	    $_ = &process_undefined_environment("displaymath", $id, $_) ;
 	    $outeqn = join('',
 	                   $outeqn,
-	                   "\n  <td WIDTH=\"0*\"", $acol[$nc],">",
+	                   "\n  <td WIDTH=\"0*\" VALIGN=CENTER ", $acol[$nc],">",
 			   $_,
 			   "</td>") ;
 	    $nc++ ;
@@ -293,7 +294,7 @@ sub do_env_EQA {
 	$outeqn = join('',
 	               $outeqn,
 		       $fill_right,
-	               "\n  <td WIDTH=\"10%\" ALIGN=\"RIGHT\">",
+	               "\n  <td WIDTH=\"10%\" VALIGN=CENTER ALIGN=\"RIGHT\">",
 		       $label_right,
 		       "</td>",
 		       "\n</tr>") ;

@@ -2,7 +2,7 @@
 \def\input@path{{../macros/}{../../macros/}}
 \makeatother
 
-\documentclass[a4paper]{article}
+\documentclass[a4paper,final,11pt]{article}
 
 \usepackage{mydoc}
 \input{mydoc.tex}
@@ -20,43 +20,51 @@
 \end{abstract}
 
 \pagestyle{fpage}
-\def\sectionmark#1{\markboth{The package \package{easybmat}}{The package \package{easybmat}}}
+\def\sectionmark#1{\markboth{The package \package{easytable}}{The package \package{easytable}}}
 \let\chaptermark\sectionmark
 \let\subsectionmark\sectionmark
 
 \section{How to use it}
-Load the package in the usual way:
+%%
+The package is loaded by means of the usual way:
+%%
 \begin{verbatim}
   \documentclass{article}
   .
   .
-  \usepackage[thinlines,thiklines]{easytab}
+  \usepackage[thinlines,thicklines]{easytab}
   .
   .
 \end{verbatim}
-The options \texttt{thinlines}, and \texttt{thiklines} are self explanatory.
+%%
+The options \texttt{thinlines}, and \texttt{thicklines} are self explanatory.
 
 The package \package{easytab} provides the \envname{TAB} environment
 which is a simple (re)\-implementation of the array---tabular environment,
-with some limitation and some additional features.  The syntax is
+with some limitations and some additional features.
+The syntax can be either
+%%
 \begin{verbatim}
   \begin{TAB}`(eq)'`[ex]'`{cc...c}'`{cc...c}'
      a & b & ... & n \\
      ...
   \end{TAB}
 \end{verbatim}
-or 
+%%
+or
+%%
 \begin{verbatim}
   \begin{TAB}`(eq,mx,my)'`[ex,MX,MY]'`{cc...c}'`{cc...c}'
      a & b & ... & n \\
      ...
   \end{TAB}
 \end{verbatim}
-%
+%%
 \begin{dotlist}
   \item
-  \verb'(eq)' or \verb'(eq,mx,my)'.  By \verb'eq' you can balance
+  \verb|(eq)| or \verb|(eq,mx,my)|.  By \verb|eq| you can balance
   the rows or the column or both, as shown in this table:
+  %%
   \begin{center}
     \textbf{Table 1.}\nobreak\\[1em]
     \begin{tabular}{|l|l|}
@@ -71,20 +79,24 @@ or
       \hline
     \end{tabular}
   \end{center}
-  By \verb'mx' and \verb'my' you can modify the minimum size of the
-  box in the TAB environment.  This must be a valid measure e.g. 2pt. 
+  %%
+  By \verb|mx| and \verb|my| you can modify the minimum size of the
+  box in the \envname{TAB} environment.
+  This must be a valid measure e.g. \verb|2pt|. 
   This is useful in writing matrices an vectors.
   %%
   \item
-  \verb'[ex]' or \verb'[ex,MX,MY]'.  By ``\verb'ex''' you can specify
+  \verb|[ex]| or \verb|[ex,MX,MY]|.  By \verb|ex| you can specify
   the amount of extra space around the item in the \envname{TAB}
-  environment.  The default is \verb'2pt'.  By \verb'MX' and \verb'MY'
-  you can modify the minimum size of the whole table in the TAB
-  environment.  This must be a valid measure e.g.~10cm.
+  environment.  The default is \verb|2pt|.  By \verb|MX| and \verb|MY|
+  you can modify the minimum size of the whole table in the 
+  \envname{TAB} environment.  This must be a valid measure
+  e.g.~\verb|10cm|.
   %%  
   \item
-  The first ``\verb'{cc...c}''' is the definition of the columns and
+  The first \verb|{cc...c}| is the definition of the columns and
   their alignment.  The possible alignment for the columns are:
+  %%
   \begin{center}
     \textbf{Table 2.} \nobreak\\[1em]
     \begin{tabular}{|l|l|}
@@ -97,8 +109,9 @@ or
   \end{center}
   %%
   \item
-  The second ``\verb'{cc...c}''' is the definition of the rows their
+  The second \verb|{cc...c}| is the definition of the rows their
   alignment.  The possible alignment for the rows are:
+  %%
   \begin{center}
     \textbf{Table 3.} \\[1em]
     \begin{tabular}{|l|l|}
@@ -109,12 +122,13 @@ or
       \hline
     \end{tabular}
   \end{center}
+  %%
 \end{dotlist}
 \textbf{IMPORTANT:} The package can manage matrices with a maximum 
 of \verb|30| rows by \verb|30| columns.\\
 %
 \textbf{IMPORTANT:} The functionality of the environment ``TAB'' is 
-the same of the environment ``BMAT'' the only difference is that its 
+the same of the environment \envname{BMAT} the only difference is that its 
 entries are in ``text'' mode not in ``mathematic'' mode. Please read 
 the documentation of the package \package{easybmat} to understand
 how to use ``TAB''.
