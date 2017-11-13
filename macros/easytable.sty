@@ -33,8 +33,9 @@
 %%%    /   \  /     /  \      /         /   \  /     /  \      /        %%%
 %%%   /____/ /____ /    \    /         /____/ /____ /    \    /         %%%
 %%% ====================================================================%%%
-\def\filedate{2004/06/11}
-\def\fileversion{v1.1}
+%%% v1.2 18-AUG-2010 fixed a bug in \addpath when used recursively
+\def\filedate{2010/08/18}
+\def\fileversion{v1.2}
 \typeout{Document Style `easytable'  \fileversion\space<\filedate>.}
 %% BEGIN easybmat.sty
 %%
@@ -109,7 +110,7 @@
   \@easy@parse@rows{#3}%
   \@TAB@make@preamble%
   \def\\{\crcr}%
-  \global\let\@easy@path\@empty%
+  \@easy@glet(@easy@path\romannumeral\@easy@level){@empty}
   \setbox\@nameuse{@easy@box\romannumeral\@easy@level}\@TAB@preamble%
 }
 \def\endTAB{%
@@ -130,7 +131,7 @@
   \@easy@hlines%
   \mbox{\rlap{\box\@ne}
 	      \rlap{\box\tw@}
-	      \ifx\@easy@path\@empty\else\@easy@dopath\rlap{\box\thr@@}\fi
+	      \ifx\@easy@use{\@easy@path\romannumeral\@easy@level}\@empty\else\@easy@dopath\rlap{\box\thr@@}\fi
 	      \box\@easy@mainbox}%
   \advance\@easy@level\m@ne%
 }

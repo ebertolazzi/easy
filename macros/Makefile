@@ -1,1 +1,0 @@
-all:	cd doc ; make all install:	cd doc ; make install	cp *.sty ../easy	cp README ../easy	cp -r perl ../easy/perl	cd .. ; tar -cvf easy.tar easy ; gzip easy.tar

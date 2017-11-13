@@ -1,18 +1,16 @@
-\newcommand{\package}[1]{\textsc{#1}}
-\newcommand{\envname}[1]{\textsf{#1}}
+%begin{latexonly}
+\usepackage{times,color}
+%end{latexonly}
+
+\newcommand{\package}[1]{\textsc{\color{blue}#1}}
+\newcommand{\envname}[1]{\textsf{\color{blue}#1}}
 \newcommand{\cmdname}[1]{\texttt{\char`\\#1}}
 
 \author{Enrico Bertolazzi\\ \\
-  Laboratorio di Matematica Applicata e Meccanica Computazionale\\
-  Dipartimento di Ingegneria Meccanica e Strutturale\\
-  Universit\`a degli Studi di Trento\\
-  Mesiano, Trento, Italy \\ \\
+  Department of Mechanics and Structures Engineering\\
+  University of Trento\\
+  via Mesiano 77, I -- 38050 Trento, Italy\\ \\
   \Email{enrico.bertolazzi@ing.unitn.it} }
-
-%begin{latexonly}
-\usepackage{times}
-%end{latexonly}
-
 
 %%%
 %%% HEADER PAGE
@@ -90,17 +88,23 @@
 
 \usepackage{fancyvrb}
 
+\renewcommand{\verb}{\SaveVerb[aftersave=\textbf{\color{red}\UseVerb{verb}}]{verb}}
+
 \newdimen\MINISIZE
 \newcommand{\VRB}[1]{
   \par
-  \VerbatimInput[xleftmargin=\fboxsep,xrightmargin=\fboxsep]{#1}
+  \VerbatimInput[xleftmargin=\fboxsep,
+                 xrightmargin=\fboxsep,
+		 formatcom=\color{blue}]{#1}
   \par
 }
+
 
 \newcommand{\FRAMEVRB}[1]{
   \par
   \VerbatimInput[xleftmargin=\fboxsep,
                  xrightmargin=\fboxsep,
+		 formatcom=\color{blue},
                  frame=single]{#1}
   \par
 }
@@ -133,7 +137,8 @@
   \vskip\fboxsep%
   \VerbatimInput[xleftmargin=\fboxsep,
                  xrightmargin=\fboxsep,
-                 frame=single]{#1.tex}
+                 formatcom=\color{blue},
+                 frame=bottomline]{#1.tex}
   \input{#1.tex}
   \end{minipage}}
   \par

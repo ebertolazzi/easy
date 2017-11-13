@@ -35,8 +35,11 @@
 %%%   /____/ /____ /    \    /         /____/ /____ /    \    /         %%%
 %%% ====================================================================%%%
 %%% v 1.0 13-JUN-2001 changed \@roman with \romannumeral (thanks to Claudio Beccari) 
-\def\filedate{2006/11/13}
-\def\fileversion{v1.0.1}
+%%% v 1.1 18-AUG-2010 fixed a bug in \addpath when used recursively
+
+
+\def\filedate{2010/08/18}
+\def\fileversion{v1.1}
 \typeout{Document Style `easybmat'  \fileversion\space<\filedate>.}
 %% BEGIN easybmat.sty
 %%
@@ -107,7 +110,8 @@
   \@easy@parse@rows{#3}%
   \@bmat@make@preamble%
   \def\\{\crcr}%
-  \global\let\@easy@path\@empty%
+  %\global\let\@easy@path\@empty%
+  \@easy@glet(@easy@path\romannumeral\@easy@level){@empty}%
   \setbox\@nameuse{@easy@box\romannumeral\@easy@level}\@bmat@preamble%
 }
 \def\endBMAT{%
@@ -128,7 +132,7 @@
   \@easy@hlines%
   \vcenter{\hbox{\rlap{\box\@ne}
 	   \rlap{\box\tw@}
-	   \ifx\@easy@path\@empty\else\@easy@dopath\rlap{\box\thr@@}\fi
+	   \ifx\@easy@use{\@easy@path\romannumeral\@easy@level}\@empty\else\@easy@dopath\rlap{\box\thr@@}\fi
 	   \box\@easy@mainbox}}%
   \advance\@easy@level\m@ne%
 }

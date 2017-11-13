@@ -38,11 +38,12 @@
 %%% v1.0 30-AUG-1999 
 %%% v1.1 31-MAY-2001 changed \@roman with \romannumeral (thanks to Claudio Beccari) 
 %%%                  added \easydashlen \easydashsep
-%%% v2.1 11-KUNE-2004 fixed a bug in \@easy@use@dim
+%%% v2.1 11-JUNE-2004 fixed a bug in \@easy@use@dim
+%%% v2.2 18-AUG-2010 fixed a bug in \addpath when used recursively
 
 
-\def\filedate{2004/06/11}
-\def\fileversion{v2.1}
+\def\filedate{2010/08/18}
+\def\fileversion{v2.2}
 \typeout{Document Style `easy'  \fileversion\space<\filedate>.}
 %%
 \NeedsTeXFormat{LaTeX2e}
@@ -575,7 +576,7 @@
 
 %%%%%%%%%%%%%%% PATH COMMANDS %%%%%%%%%%%%%%%
 
-\def\addpath#1{\g@addto@macro\@easy@path{[#1]}}
+\def\addpath#1{\expandafter\g@addto@macro\csname @easy@path\romannumeral\@easy@level\endcsname{[#1]}}
 
 \def\@easy@dopath{%adjust size boxex
      \global\setbox\thr@@\hbox{}
@@ -610,7 +611,8 @@
 	 \@easy@advance@dim(@easy@vsize\romannumeral\@tempcntb){\@tempdima}
      \repeat%
      \@easy@advance@dim(@easy@vsize\romannumeral\@tempcntb){\@tempdima}
-     \expandafter\@easy@do@path@parse\@easy@path`}
+     \@easy@let(@easy@tmp){@easy@path\romannumeral\@easy@level}
+     \expandafter\@easy@do@path@parse\@easy@tmp`}
 
 \def\@easy@do@path@parse{\futurelet\@tempa\@easy@do@path@parsea}
 \def\@easy@do@path@parsea{%
